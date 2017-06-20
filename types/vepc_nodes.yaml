@@ -1,0 +1,52 @@
+
+node_types:
+
+  vepc.nodes.ran:
+    derived_from: cloudify.nodes.SoftwareComponent
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        install: scripts/ran/install_ran.sh
+        delete: scripts/ran/uninstall_ran.sh
+
+  vepc.nodes.sgw:
+    derived_from: cloudify.nodes.SoftwareComponent
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        install: scripts/sgw/install_sgw.sh
+        start: scripts/sgw/start_sgw.sh
+        stop: scripts/sgw/stop_sgw.sh
+        delete: scripts/sgw/uninstall_sgw.sh
+
+  vepc.nodes.mme:
+    derived_from: cloudify.nodes.SoftwareComponent
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        install: scripts/mme/install_mme.sh
+        start: scripts/mme/start_mme.sh
+        stop: scripts/mme/stop_mme.sh
+        delete: scripts/mme/uninstall_mme.sh
+
+  vepc.nodes.hss:
+    derived_from: cloudify.nodes.SoftwareComponent
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        install: scripts/hss/install_hss.sh
+        start: scripts/hss/start_hss.sh
+        stop: scripts/hss/stop_hss.sh
+        delete: scripts/hss/uninstall_hss.sh
+
+  vepc.nodes.pgw:
+    derived_from: cloudify.nodes.SoftwareComponent
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        install: scripts/pgw/install_pgw.sh
+        start: scripts/pgw/start_pgw.sh
+        stop: scripts/pgw/stop_pgw.sh
+        delete: scripts/pgw/uninstall_pgw.sh
+
+  vepc.nodes.sink:
+    derived_from: cloudify.nodes.SoftwareComponent
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        install: scripts/sink/install_sink.sh
+        delete: scripts/sink/uninstall_sink.sh
