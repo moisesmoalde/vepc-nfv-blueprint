@@ -9,8 +9,8 @@ vector<thread> g_s5_server_threads;
 Sgw g_sgw;
 
 void check_usage(int argc) {
-	if (argc < 4) {
-		TRACE(cout << "Usage: ./<sgw_server_exec> S11_SERVER_THREADS_COUNT S1_SERVER_THREADS_COUNT S5_SERVER_THREADS_COUNT" << endl;)
+	if (argc < 5) {
+		TRACE(cout << "Usage: ./<sgw_server_exec> S11_THREADS S1_U_THREADS S5_THREADS SGW_IP" << endl;)
 		g_utils.handle_type1_error(-1, "Invalid usage error: sgwserver_checkusage");
 	}
 }
@@ -19,6 +19,9 @@ void init(char *argv[]) {
 	g_s11_server_threads_count = atoi(argv[1]);
 	g_s1_server_threads_count = atoi(argv[2]);
 	g_s5_server_threads_count = atoi(argv[3]);
+	g_sgw_s11_ip_addr = argv[4];
+	g_sgw_s1_ip_addr = argv[4];
+	g_sgw_s5_ip_addr = argv[4];
 	g_s11_server_threads.resize(g_s11_server_threads_count);
 	g_s1_server_threads.resize(g_s1_server_threads_count);
 	g_s5_server_threads.resize(g_s5_server_threads_count);
