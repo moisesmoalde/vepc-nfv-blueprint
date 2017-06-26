@@ -13,7 +13,13 @@ node_types:
     interfaces:
       cloudify.interfaces.lifecycle:
         install: scripts/sgw/install_sgw.sh
-        start: scripts/sgw/start_sgw.py
+        start:
+          implementation: scripts/sgw/start_sgw.py
+          inputs:
+            ip:
+            s11_threads:
+            s1_u_threads:
+            s5_threads:
         stop: scripts/sgw/stop_sgw.py
         delete: scripts/sgw/uninstall_sgw.sh
 
@@ -22,7 +28,15 @@ node_types:
     interfaces:
       cloudify.interfaces.lifecycle:
         install: scripts/mme/install_mme.sh
-        start: scripts/mme/start_mme.py
+        start:
+          implementation: scripts/mme/start_mme.py
+          inputs:
+            ip:
+            ran_ip:
+            hss_ip:
+            sgw_ip:
+            pgw_ip:
+            s1_mme_threads:
         stop: scripts/mme/stop_mme.py
         delete: scripts/mme/uninstall_mme.sh
 
@@ -31,7 +45,11 @@ node_types:
     interfaces:
       cloudify.interfaces.lifecycle:
         install: scripts/hss/install_hss.sh
-        start: scripts/hss/start_hss.py
+        start:
+          implementation: scripts/hss/start_hss.py
+          inputs:
+            ip:
+            s6a_threads:
         stop: scripts/hss/stop_hss.py
         delete: scripts/hss/uninstall_hss.sh
 
@@ -40,7 +58,14 @@ node_types:
     interfaces:
       cloudify.interfaces.lifecycle:
         install: scripts/pgw/install_pgw.sh
-        start: scripts/pgw/start_pgw.py
+        start:
+          implementation: scripts/pgw/start_pgw.py
+          inputs:
+            ip:
+            sgw_ip:
+            sink_ip:
+            s5_threads:
+            sgi_threads:
         stop: scripts/pgw/stop_pgw.py
         delete: scripts/pgw/uninstall_pgw.sh
 
