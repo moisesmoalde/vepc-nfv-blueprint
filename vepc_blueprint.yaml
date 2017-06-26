@@ -248,12 +248,30 @@ node_templates:
 
   sgw:
     type: vepc.nodes.sgw
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        start:
+          inputs:
+            ip:
+            s11_threads:
+            s1_u_threads:
+            s5_threads:
     relationships:
       - type: cloudify.relationships.contained_in
         target: sgw_vm
 
   mme:
     type: vepc.nodes.mme
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        start:
+          inputs:
+            ip:
+            ran_ip:
+            hss_ip:
+            sgw_ip:
+            pgw_ip:
+            s1_mme_threads:
     relationships:
       - type: cloudify.relationships.contained_in
         target: mme_vm
@@ -268,12 +286,27 @@ node_templates:
 
   hss:
     type: vepc.nodes.hss
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        start:
+          inputs:
+            ip:
+            s6a_threads:
     relationships:
       - type: cloudify.relationships.contained_in
         target: hss_vm
 
   pgw:
     type: vepc.nodes.pgw
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        start:
+          inputs:
+            ip:
+            sgw_ip:
+            sink_ip:
+            s5_threads:
+            sgi_threads:
     relationships:
       - type: cloudify.relationships.contained_in
         target: pgw_vm
