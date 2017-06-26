@@ -8,7 +8,7 @@ from cloudify import ctx
 from cloudify.state import ctx_parameters as inputs
 
 PGW_DIR = ctx.instance.runtime_properties["pgw_dir"]
-PGW_IP = ctx.instance.runtime_properties["ip"] # Private IP
+PGW_IP = inputs["ip"] # Private IP
 SGW_IP = inputs["sgw_ip"]
 SINK_IP = inputs["sink_ip"]
 S5_THREADS = inputs["s5_threads"]

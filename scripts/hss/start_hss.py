@@ -8,7 +8,7 @@ from cloudify import ctx
 from cloudify.state import ctx_parameters as inputs
 
 HSS_DIR = ctx.instance.runtime_properties["hss_dir"]
-HSS_IP = ctx.instance.runtime_properties["ip"] # Private IP
+HSS_IP = inputs["ip"] # Private IP
 S6A_THREADS = inputs["s6a_threads"]
 CMD = ["nohup", HSS_DIR + "/src/hss.out", S6A_THREADS, HSS_IP]
 
