@@ -10,12 +10,12 @@ from cloudify.state import ctx_parameters as inputs
 SGW_DIR = ctx.instance.runtime_properties["sgw_dir"]
 SGW_IP = inputs["ip"] # Private IP
 S11_THREADS = inputs["s11_threads"]
-S1_THREADS = inputs["s1_threads"]
+S1_U_THREADS = inputs["s1_u_threads"]
 S5_THREADS = inputs["s5_threads"]
 CMD = ["nohup",
 		SGW_DIR + "/src/sgw.out",
 		S11_THREADS,
-		S1_THREADS,
+		S1_U_THREADS,
 		S5_THREADS,
 		SGW_IP]
 

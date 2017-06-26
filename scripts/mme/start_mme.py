@@ -13,10 +13,10 @@ RAN_IP = inputs["ran_ip"]
 HSS_IP = inputs["hss_ip"]
 SGW_IP = inputs["sgw_ip"]
 PGW_IP = inputs["pgw_ip"]
-S1_THREADS = inputs["s1_threads"]
+S1_THREADS = inputs["s1_mme_threads"]
 CMD = ["nohup",
 		MME_DIR + "/src/mme.out",
-		S1_THREADS,
+		S1_MME_THREADS,
 		MME_IP,
 		RAN_IP,
 		HSS_IP,
