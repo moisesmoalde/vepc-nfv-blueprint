@@ -52,13 +52,7 @@ inputs:
   vpc_id:
     type: string
 
-  vpc_cidr_block:
-    type: string
-
   subnet_id:
-    type: string
-
-  subnet_cidr:
     type: string
 
 dsl_definitions:
@@ -132,8 +126,8 @@ node_templates:
       aws_config: *aws_config
       use_external_resource: true
       resource_id: { get_input: subnet_id }
-      cidr_block: { get_input: subnet_cidr }
-      availability_zone: { get_input: availability_zone }
+      cidr_block: N/A
+      availability_zone: N/A
     relationships:
       - type: cloudify.aws.relationships.subnet_contained_in_vpc
         target: vpc
@@ -144,7 +138,7 @@ node_templates:
       aws_config: *aws_config
       use_external_resource: true
       resource_id: { get_input: vpc_id }
-      cidr_block: { get_input: vpc_cidr_block }
+      cidr_block: N/A
 
   key:
     type: cloudify.aws.nodes.KeyPair
