@@ -13,8 +13,8 @@ node_types:
     interfaces:
       cloudify.interfaces.lifecycle:
         install: scripts/sgw/install_sgw.sh
-        start: scripts/sgw/start_sgw.sh
-        stop: scripts/sgw/stop_sgw.sh
+        start: scripts/sgw/start_sgw.py
+        stop: scripts/sgw/stop_sgw.py
         delete: scripts/sgw/uninstall_sgw.sh
 
   vepc.nodes.mme:
@@ -22,8 +22,8 @@ node_types:
     interfaces:
       cloudify.interfaces.lifecycle:
         install: scripts/mme/install_mme.sh
-        start: scripts/mme/start_mme.sh
-        stop: scripts/mme/stop_mme.sh
+        start: scripts/mme/start_mme.py
+        stop: scripts/mme/stop_mme.py
         delete: scripts/mme/uninstall_mme.sh
 
   vepc.nodes.hss:
@@ -31,8 +31,8 @@ node_types:
     interfaces:
       cloudify.interfaces.lifecycle:
         install: scripts/hss/install_hss.sh
-        start: scripts/hss/start_hss.sh
-        stop: scripts/hss/stop_hss.sh
+        start: scripts/hss/start_hss.py
+        stop: scripts/hss/stop_hss.py
         delete: scripts/hss/uninstall_hss.sh
 
   vepc.nodes.pgw:
@@ -40,8 +40,8 @@ node_types:
     interfaces:
       cloudify.interfaces.lifecycle:
         install: scripts/pgw/install_pgw.sh
-        start: scripts/pgw/start_pgw.sh
-        stop: scripts/pgw/stop_pgw.sh
+        start: scripts/pgw/start_pgw.py
+        stop: scripts/pgw/stop_pgw.py
         delete: scripts/pgw/uninstall_pgw.sh
 
   vepc.nodes.sink:
