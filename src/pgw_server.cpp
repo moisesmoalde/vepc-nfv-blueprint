@@ -7,8 +7,8 @@ vector<thread> g_sgi_server_threads;
 Pgw g_pgw;
 
 void check_usage(int argc) {
-	if (argc < 3) {
-		TRACE(cout << "Usage: ./<pgw_server_exec> S5_SERVER_THREADS_COUNT SGI_SERVER_THREADS_COUNT" << endl;)
+	if (argc < 6) {
+		TRACE(cout << "Usage: ./<pgw_server_exec> S5_THREADS SGI_THREADS PGW_IP SGW_IP SINK_IP" << endl;)
 		g_utils.handle_type1_error(-1, "Invalid usage error: pgwserver_checkusage");
 	}
 }
@@ -16,6 +16,10 @@ void check_usage(int argc) {
 void init(char *argv[]) {
 	g_s5_server_threads_count = atoi(argv[1]);
 	g_sgi_server_threads_count = atoi(argv[2]);
+	g_pgw_s5_ip_addr = argv[3];
+	g_pgw_sgi_ip_addr = argv[3];
+	g_sgw_s5_ip_addr = argv[4];
+	g_sink_ip_addr = argv[5];
 	g_s5_server_threads.resize(g_s5_server_threads_count);
 	g_sgi_server_threads.resize(g_sgi_server_threads_count);
 	signal(SIGPIPE, SIG_IGN);
