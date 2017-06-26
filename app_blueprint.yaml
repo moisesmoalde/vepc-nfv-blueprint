@@ -1,0 +1,44 @@
+tosca_definitions_version: cloudify_dsl_1_3
+
+########################################################
+
+imports:
+  - http://www.getcloudify.org/spec/cloudify/4.0.1/types.yaml
+
+inputs:
+
+  s11_threads:
+    description: >
+      Number of concurrent threads performing S11 interface
+      between SGW and MME nodes
+    default: 10
+
+  s1_u_threads:
+    description: >
+      Number of concurrent threads performing S1-U interface
+      between SGW and RAN nodes
+    default: 50
+
+  s5_threads:
+    description: >
+      Number of concurrent threads performing S5 interface
+      between SGW and PGW nodes
+    default: 50
+
+  s1_mme_threads:
+    description: >
+      Number of concurrent threads performing S1-MME interface
+      between RAN and MME nodes
+    default: 10
+
+  s6a_threads:
+    description: >
+      Number of concurrent threads performing S6a interface
+      between MME and HSS nodes
+    default: 10
+
+  sgi_threads:
+    description: >
+      Number of concurrent threads performing SGi interface
+      between PGW and SINK nodes
+    default: 50

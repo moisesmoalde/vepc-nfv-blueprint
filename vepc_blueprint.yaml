@@ -5,6 +5,7 @@ tosca_definitions_version: cloudify_dsl_1_3
 imports:
   - http://www.getcloudify.org/spec/cloudify/4.0.1/types.yaml
   - http://getcloudify.org.s3.amazonaws.com/spec/aws-plugin/1.4.10/plugin.yaml
+  - app_blueprint.yaml
   - types/vepc_vm.yaml
   - types/vepc_nodes.yaml
 
@@ -253,9 +254,9 @@ node_templates:
         start:
           inputs:
             ip:
-            s11_threads:
-            s1_u_threads:
-            s5_threads:
+            s11_threads: { get_input: s11_threads }
+            s1_u_threads: { get_input: s1_u_threads }
+            s5_threads: { get_input: s5_threads }
     relationships:
       - type: cloudify.relationships.contained_in
         target: sgw_vm
@@ -271,7 +272,7 @@ node_templates:
             hss_ip:
             sgw_ip:
             pgw_ip:
-            s1_mme_threads:
+            s1_mme_threads: { get_input: s1_mme_threads }
     relationships:
       - type: cloudify.relationships.contained_in
         target: mme_vm
@@ -291,7 +292,7 @@ node_templates:
         start:
           inputs:
             ip:
-            s6a_threads:
+            s6a_threads: { get_input: s6a_threads }
     relationships:
       - type: cloudify.relationships.contained_in
         target: hss_vm
@@ -305,8 +306,8 @@ node_templates:
             ip:
             sgw_ip:
             sink_ip:
-            s5_threads:
-            sgi_threads:
+            s5_threads: { get_input: s5_threads }
+            sgi_threads: { get_input: sgi_threads }
     relationships:
       - type: cloudify.relationships.contained_in
         target: pgw_vm
