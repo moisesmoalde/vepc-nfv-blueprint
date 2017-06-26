@@ -9,7 +9,7 @@ from cloudify.state import ctx_parameters as inputs
 
 MME_DIR = ctx.instance.runtime_properties["mme_dir"]
 MME_IP = ctx.instance.runtime_properties["ip"] # Private IP
-TRAFMON_IP = inputs["trafmon_ip"]
+RAN_IP = inputs["ran_ip"]
 HSS_IP = inputs["hss_ip"]
 SGW_IP = inputs["sgw_ip"]
 PGW_IP = inputs["pgw_ip"]
@@ -18,7 +18,7 @@ CMD = ["nohup",
 		MME_DIR + "/src/mme.out",
 		S1_THREADS,
 		MME_IP,
-		TRAFMON_IP,
+		RAN_IP,
 		HSS_IP,
 		SGW_IP,
 		PGW_IP]
