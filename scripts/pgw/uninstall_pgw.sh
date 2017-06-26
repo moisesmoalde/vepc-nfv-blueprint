@@ -1,3 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
-# make clean
+PGW_DIR=$(ctx instance runtime-properties pgw_dir)
+sudo rm -r ${PGW_DIR}
