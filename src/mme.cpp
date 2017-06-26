@@ -1,12 +1,12 @@
 #include "mme.h"
 
-string g_trafmon_ip_addr = "192.168.1.83";
-string g_mme_ip_addr = "192.168.1.78";
-string g_hss_ip_addr = "192.168.1.80";
-string g_sgw_s11_ip_addr = "192.168.1.74";
-string g_sgw_s1_ip_addr = "192.168.1.74";
-string g_sgw_s5_ip_addr = "192.168.1.74";
-string g_pgw_s5_ip_addr = "192.168.1.76";
+string g_trafmon_ip_addr;
+string g_mme_ip_addr;
+string g_hss_ip_addr;
+string g_sgw_s11_ip_addr;
+string g_sgw_s1_ip_addr;
+string g_sgw_s5_ip_addr;
+string g_pgw_s5_ip_addr;
 int g_trafmon_port = 4000;
 int g_mme_port = 5000;
 int g_hss_port = 6000;

@@ -6,14 +6,21 @@ vector<SctpClient> hss_clients;
 vector<UdpClient> sgw_s11_clients;
 
 void check_usage(int argc) {
-	if (argc < 2) {
-		TRACE(cout << "Usage: ./<mme_server_exec> THREADS_COUNT" << endl;)
+	if (argc < 7) {
+		TRACE(cout << "Usage: ./<mme_server_exec> S1_MME_THREADS MME_IP RAN_IP HSS_IP SGW_IP PGW_IP" << endl;)
 		g_utils.handle_type1_error(-1, "Invalid usage error: mmeserver_checkusage");
 	}
 }
 
 void init(char *argv[]) {
 	g_workers_count = atoi(argv[1]);
+	g_mme_ip_addr = argv[2];
+	g_trafmon_ip_addr = argv[3];
+	g_hss_ip_addr = argv[4];
+	g_sgw_s11_ip_addr = argv[5];
+	g_sgw_s1_ip_addr = argv[5];
+	g_sgw_s5_ip_addr = argv[5];
+	g_pgw_s5_ip_addr = argv[6];
 	hss_clients.resize(g_workers_count);
 	sgw_s11_clients.resize(g_workers_count);
 	signal(SIGPIPE, SIG_IGN);
