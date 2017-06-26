@@ -4,14 +4,15 @@ Hss g_hss;
 int g_workers_count;
 
 void check_usage(int argc) {
-	if (argc < 2) {
-		TRACE(cout << "Usage: ./<hss_server_exec> THREADS_COUNT" << endl;)
+	if (argc < 3) {
+		TRACE(cout << "Usage: ./<hss_server_exec> S6A_THREADS HSS_IP" << endl;)
 		g_utils.handle_type1_error(-1, "Invalid usage error: hssserver_checkusage");
 	}
 }
 
 void init(char *argv[]) {
 	g_workers_count = atoi(argv[1]);
+	g_hss_ip_addr = argv[2];
 	if (mysql_library_init(0, NULL, NULL)) {
 		g_utils.handle_type1_error(-1, "mysql_library_init error: hssserver_init");
 	}
