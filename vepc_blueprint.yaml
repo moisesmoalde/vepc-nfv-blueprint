@@ -262,6 +262,14 @@ node_templates:
     relationships:
       - type: cloudify.relationships.contained_in
         target: mme_vm
+      - type: cloudify.relationships.depends_on
+        target: ran_vm
+      - type: cloudify.relationships.depends_on
+        target: hss_vm
+      - type: cloudify.relationships.depends_on
+        target: sgw_vm
+      - type: cloudify.relationships.depends_on
+        target: pgw_vm
 
   hss:
     type: vepc.nodes.hss
@@ -274,6 +282,10 @@ node_templates:
     relationships:
       - type: cloudify.relationships.contained_in
         target: pgw_vm
+      - type: cloudify.relationships.depends_on
+        target: sgw_vm
+      - type: cloudify.relationships.depends_on
+        target: sink_vm
 
   sink:
     type: vepc.nodes.sink
