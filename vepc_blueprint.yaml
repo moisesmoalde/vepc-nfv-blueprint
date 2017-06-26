@@ -325,3 +325,23 @@ node_templates:
 ########################################################
 
 outputs:
+
+  ran_access:
+    description: public IP of RAN simulator node
+    value:
+      ip: { get_attribute: [ ran_ip, aws_resource_id ] }
+
+  sink_access:
+    description: public IP of SINK node
+    value:
+      ip: { get_attribute: [ sink_ip, aws_resource_id ] }
+
+  mme_ip:
+    description: private IP of MME node
+    value:
+      ip: { get_attribute: [ mme_vm, ip ] }
+
+  pgw_ip:
+    description: private IP of PGW node
+    value:
+      ip: { get_attribute: [ pgw_vm, ip ] }
