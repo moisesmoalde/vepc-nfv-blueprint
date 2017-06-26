@@ -10,7 +10,4 @@ key_name:
 private_key_path:
 
 vpc_id:
-vpc_cidr_block:
-
 subnet_id:
-subnet_cidr:
