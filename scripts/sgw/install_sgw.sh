@@ -11,18 +11,18 @@ ctx logger info "Configure the APT software"
 sudo apt-get -y update
 
 set +e
-ctx logger info "Installing g++ compiler"
-sudo DEBIAN_FRONTEND=noninteractive apt-get install g++ --yes --force-yes
+ctx logger info "Installing g++ compiler and make tool"
+sudo DEBIAN_FRONTEND=noninteractive apt-get install g++ build-essential --yes --force-yes
 ctx logger info "Installing unzip package"
 sudo DEBIAN_FRONTEND=noninteractive apt-get install unzip --yes --force-yes
 set -e
 
 ctx logger info "Downloading vEPC blueprint package"
-wget https://github.com/moisesmoalde/vepc-nfv-blueprint/archive/master.zip -O ${SGW_DIR_NAME}.zip
-unzip ${SGW_DIR_NAME}.zip -d ${SGW_DIR} && rm ${SGW_DIR_NAME}.zip
+wget https://github.com/moisesmoalde/vepc-nfv-blueprint/archive/master.zip -O ${SGW_DIR}.zip
+unzip ${SGW_DIR}.zip -d ${TEMP_DIR} && rm ${SGW_DIR}.zip
 
 ctx logger info "Making sgw.out file"
-cd ${SGW_DIR}/src && make sgw.out
+sudo make -C ${SGW_DIR}/src sgw.out
 
 # Runtime property used by start_sgw script
 ctx instance runtime-properties sgw_dir ${SGW_DIR}

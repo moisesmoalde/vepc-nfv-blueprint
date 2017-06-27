@@ -13,18 +13,18 @@ sudo apt-get -y update
 set +e
 ctx logger info "Installing SSL packages"
 sudo DEBIAN_FRONTEND=noninteractive apt-get install openssl libssl-dev --yes --force-yes
-ctx logger info "Installing g++ compiler"
-sudo DEBIAN_FRONTEND=noninteractive apt-get install g++ --yes --force-yes
+ctx logger info "Installing g++ compiler and make tool"
+sudo DEBIAN_FRONTEND=noninteractive apt-get install g++ build-essential --yes --force-yes
 ctx logger info "Installing unzip package"
 sudo DEBIAN_FRONTEND=noninteractive apt-get install unzip --yes --force-yes
 set -e
 
 ctx logger info "Downloading vEPC blueprint package"
-wget https://github.com/moisesmoalde/vepc-nfv-blueprint/archive/master.zip -O ${MME_DIR_NAME}.zip
-unzip ${MME_DIR_NAME}.zip -d ${MME_DIR} && rm ${MME_DIR_NAME}.zip
+wget https://github.com/moisesmoalde/vepc-nfv-blueprint/archive/master.zip -O ${MME_DIR}.zip
+unzip ${MME_DIR}.zip -d ${TEMP_DIR} && rm ${MME_DIR}.zip
 
 ctx logger info "Making mme.out file"
-cd ${MME_DIR}/src && make mme.out
+sudo make -C ${MME_DIR}/src mme.out
 
 # Runtime property used by start_mme script
 ctx instance runtime-properties mme_dir ${MME_DIR}

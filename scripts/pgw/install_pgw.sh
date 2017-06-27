@@ -11,18 +11,18 @@ ctx logger info "Configure the APT software"
 sudo apt-get -y update
 
 set +e
-ctx logger info "Installing g++ compiler"
-sudo DEBIAN_FRONTEND=noninteractive apt-get install g++ --yes --force-yes
+ctx logger info "Installing g++ compiler and make tool"
+sudo DEBIAN_FRONTEND=noninteractive apt-get install g++ build-essential --yes --force-yes
 ctx logger info "Installing unzip package"
 sudo DEBIAN_FRONTEND=noninteractive apt-get install unzip --yes --force-yes
 set -e
 
 ctx logger info "Downloading vEPC blueprint package"
-wget https://github.com/moisesmoalde/vepc-nfv-blueprint/archive/master.zip -O ${PGW_DIR_NAME}.zip
-unzip ${PGW_DIR_NAME}.zip -d ${PGW_DIR} && rm ${PGW_DIR_NAME}.zip
+wget https://github.com/moisesmoalde/vepc-nfv-blueprint/archive/master.zip -O ${PGW_DIR}.zip
+unzip ${PGW_DIR}.zip -d ${TEMP_DIR} && rm ${PGW_DIR}.zip
 
 ctx logger info "Making pgw.out file"
-cd ${PGW_DIR}/src && make pgw.out
+sudo make -C ${PGW_DIR}/src pgw.out
 
 # Runtime property used by start_hss script
 ctx instance runtime-properties pgw_dir ${PGW_DIR}
