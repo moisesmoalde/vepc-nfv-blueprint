@@ -5,14 +5,14 @@ node_types:
     derived_from: cloudify.nodes.SoftwareComponent
     interfaces:
       cloudify.interfaces.lifecycle:
-        install: scripts/ran/install_ran.sh
+        configure: scripts/ran/install_ran.sh
         delete: scripts/ran/uninstall_ran.sh
 
   vepc.nodes.sgw:
     derived_from: cloudify.nodes.SoftwareComponent
     interfaces:
       cloudify.interfaces.lifecycle:
-        install: scripts/sgw/install_sgw.sh
+        configure: scripts/sgw/install_sgw.sh
         start:
           implementation: scripts/sgw/start_sgw.py
         stop: scripts/sgw/stop_sgw.py
@@ -22,7 +22,7 @@ node_types:
     derived_from: cloudify.nodes.SoftwareComponent
     interfaces:
       cloudify.interfaces.lifecycle:
-        install: scripts/mme/install_mme.sh
+        configure: scripts/mme/install_mme.sh
         start:
           implementation: scripts/mme/start_mme.py
         stop: scripts/mme/stop_mme.py
@@ -32,7 +32,7 @@ node_types:
     derived_from: cloudify.nodes.SoftwareComponent
     interfaces:
       cloudify.interfaces.lifecycle:
-        install: scripts/hss/install_hss.sh
+        configure: scripts/hss/install_hss.sh
         start:
           implementation: scripts/hss/start_hss.py
         stop: scripts/hss/stop_hss.py
@@ -42,7 +42,7 @@ node_types:
     derived_from: cloudify.nodes.SoftwareComponent
     interfaces:
       cloudify.interfaces.lifecycle:
-        install: scripts/pgw/install_pgw.sh
+        configure: scripts/pgw/install_pgw.sh
         start:
           implementation: scripts/pgw/start_pgw.py
         stop: scripts/pgw/stop_pgw.py
@@ -52,5 +52,5 @@ node_types:
     derived_from: cloudify.nodes.SoftwareComponent
     interfaces:
       cloudify.interfaces.lifecycle:
-        install: scripts/sink/install_sink.sh
+        configure: scripts/sink/install_sink.sh
         delete: scripts/sink/uninstall_sink.sh
