@@ -10,27 +10,28 @@ ctx logger debug "${COMMAND}"
 ctx logger info "Configure the APT software"
 sudo apt-get -y update
 
-sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password'
-sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password'
+sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password mysql'
+sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password mysql'
 
 set +e
 ctx logger info "Installing MySQL packages"
 sudo DEBIAN_FRONTEND=noninteractive apt-get install mysql-server libmysqlclient-dev --yes --force-yes
-ctx logger info "Installing g++ compiler"
-sudo DEBIAN_FRONTEND=noninteractive apt-get install g++ --yes --force-yes
+ctx logger info "Installing g++ compiler and make tool"
+sudo DEBIAN_FRONTEND=noninteractive apt-get install g++ build-essential --yes --force-yes
 ctx logger info "Installing unzip package"
 sudo DEBIAN_FRONTEND=noninteractive apt-get install unzip --yes --force-yes
 set -e
 
 ctx logger info "Downloading vEPC blueprint package"
-wget https://github.com/moisesmoalde/vepc-nfv-blueprint/archive/master.zip -O ${HSS_DIR_NAME}.zip
-unzip ${HSS_DIR_NAME}.zip -d ${HSS_DIR} && rm ${HSS_DIR_NAME}.zip
+
+sudo wget https://github.com/moisesmoalde/vepc-nfv-blueprint/archive/master.zip -O ${HSS_DIR}.zip
+sudo unzip ${HSS_DIR}.zip -d ${TEMP_DIR} && sudo rm ${HSS_DIR}.zip
 
 ctx logger info "Inserting authentication data into HSS database"
-sudo mysql -u root < ${HSS_DIR}/scripts/hss/hss.sql
+sudo mysql -u root -pmysql < ${HSS_DIR}/scripts/hss/hss.sql
 
 ctx logger info "Making hss.out file"
-cd ${HSS_DIR}/src && make hss.out
+sudo make -C ${HSS_DIR}/src hss.out
 
 # Runtime property used by start_hss script
 ctx instance runtime-properties hss_dir ${HSS_DIR}
