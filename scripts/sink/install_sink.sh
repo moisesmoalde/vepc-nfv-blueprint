@@ -1,4 +1,4 @@
-#!/bin/bash -e
+B#!/bin/bash -e
 
 SINK_DIR_NAME="vepc-nfv-blueprint-master"
 SINK_DIR=/home/$(whoami)/${SINK_DIR_NAME}
@@ -18,6 +18,8 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install iperf3 iperf htop --yes --fo
 
 ctx logger info "Installing g++ compiler"
 sudo DEBIAN_FRONTEND=noninteractive apt-get install g++ --yes --force-yes
+ctx logger info "Installing unzip package"
+sudo DEBIAN_FRONTEND=noninteractive apt-get install unzip --yes --force-yes
 set -e
 
 ctx logger info "Downloading vEPC blueprint package"

@@ -13,6 +13,8 @@ sudo apt-get -y update
 set +e
 ctx logger info "Installing g++ compiler"
 sudo DEBIAN_FRONTEND=noninteractive apt-get install g++ --yes --force-yes
+ctx logger info "Installing unzip package"
+sudo DEBIAN_FRONTEND=noninteractive apt-get install unzip --yes --force-yes
 set -e
 
 ctx logger info "Downloading vEPC blueprint package"
