@@ -154,6 +154,7 @@ node_templates:
     properties:
       aws_config: *aws_config
       instance_type: t2.large # 2 vCPU core, 8 GiB RAM memory
+      name: RAN
     relationships:
       - type: cloudify.aws.relationships.instance_connected_to_elastic_ip
         target: ran_ip
@@ -171,6 +172,7 @@ node_templates:
     properties:
       aws_config: *aws_config
       instance_type: t2.large # 2 vCPU core, 8 GiB RAM memory
+      name: SINK
     relationships:
       - type: cloudify.aws.relationships.instance_connected_to_elastic_ip
         target: sink_ip
@@ -187,6 +189,7 @@ node_templates:
     type: vepc.nodes.Server
     properties:
       aws_config: *aws_config
+      name: MME
     relationships:
       - type: cloudify.aws.relationships.instance_connected_to_security_group
         target: all_nodes_internal
@@ -201,6 +204,7 @@ node_templates:
     type: vepc.nodes.Server
     properties:
       aws_config: *aws_config
+      name: SGW
     relationships:
       - type: cloudify.aws.relationships.instance_connected_to_security_group
         target: all_nodes_internal
@@ -215,6 +219,7 @@ node_templates:
     type: vepc.nodes.Server
     properties:
       aws_config: *aws_config
+      name: PGW
     relationships:
       - type: cloudify.aws.relationships.instance_connected_to_security_group
         target: all_nodes_internal
@@ -229,6 +234,7 @@ node_templates:
     type: vepc.nodes.Server
     properties:
       aws_config: *aws_config
+      name: HSS
     relationships:
       - type: cloudify.aws.relationships.instance_connected_to_security_group
         target: all_nodes_internal
