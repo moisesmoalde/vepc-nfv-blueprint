@@ -9,9 +9,9 @@ from cloudify.state import ctx_parameters as inputs
 
 HSS_DIR = ctx.instance.runtime_properties["hss_dir"]
 HSS_IP = str(inputs["ip"]) # Private IP
-S6A_THREADS = inputs["s6a_threads"]
+S6A_THREADS = str(inputs["s6a_threads"])
 CMD = [HSS_DIR + "/src/hss.out", S6A_THREADS, HSS_IP]
-ctx.logger.info(" ".join([str(c) for c in CMD]))
+ctx.logger.info(" ".join(CMD))
 
 ctx.logger.info("Running HSS node")
 with open(os.devnull, 'wb') as dn:

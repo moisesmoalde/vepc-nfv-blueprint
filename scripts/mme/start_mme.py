@@ -13,7 +13,7 @@ RAN_IP = str(inputs["ran_ip"])
 HSS_IP = str(inputs["hss_ip"])
 SGW_IP = str(inputs["sgw_ip"])
 PGW_IP = str(inputs["pgw_ip"])
-S1_MME_THREADS = inputs["s1_mme_threads"]
+S1_MME_THREADS = str(inputs["s1_mme_threads"])
 CMD = [MME_DIR + "/src/mme.out",
 		S1_MME_THREADS,
 		MME_IP,
@@ -21,7 +21,7 @@ CMD = [MME_DIR + "/src/mme.out",
 		HSS_IP,
 		SGW_IP,
 		PGW_IP]
-ctx.logger.info(" ".join([str(c) for c in CMD]))
+ctx.logger.info(" ".join(CMD))
 
 ctx.logger.info("Running MME node")
 with open(os.devnull, 'wb') as dn:
