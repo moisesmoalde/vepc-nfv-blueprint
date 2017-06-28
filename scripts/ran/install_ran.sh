@@ -11,7 +11,7 @@ sudo apt-get -y update
 
 set +e
 ctx logger info "Installing SSL packages"
-sudo DEBIAN_FRONTEND=noninteractive apt-get install openssl libssl-dev --yes --force-yes
+sudo DEBIAN_FRONTEND=noninteractive apt-get install openssl libssl-dev openvpn --yes --force-yes
 
 ctx logger info "Installing traffic generation packages"
 sudo DEBIAN_FRONTEND=noninteractive apt-get install software-properties-common --yes --force-yes
