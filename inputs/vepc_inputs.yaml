@@ -11,3 +11,4 @@ private_key_path:
 
 vpc_id:
 subnet_id:
+subnet_cidr:

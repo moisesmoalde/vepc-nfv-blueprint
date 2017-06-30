@@ -56,6 +56,9 @@ inputs:
   subnet_id:
     type: string
 
+  subnet_cidr:
+    type: string
+
 dsl_definitions:
 
     aws_config: &aws_config
@@ -90,24 +93,124 @@ node_templates:
         - ip_protocol: tcp
           from_port: 0
           to_port: 65535
-          cidr_ip: 0.0.0.0/0
-        - ip_protocol: udp
-          from_port: 161
-          to_port: 162
-          src_group_id: { get_property: [all_nodes_external, resource_id] }
-        - ip_protocol: tcp
-          from_port: 2380
-          to_port: 2380
-          src_group_id: { get_property: [all_nodes_external, resource_id] }
-        - ip_protocol: tcp
-          from_port: 4000
-          to_port: 4000
-          src_group_id: { get_property: [all_nodes_external, resource_id] }
+          cidr_ip: { get_input: subnet_cidr }
     relationships:
       - type: cloudify.relationships.depends_on
         target: all_nodes_external
       - type: cloudify.aws.relationships.security_group_contained_in_vpc
         target: vpc
+
+  hss_vm_security_group:
+    type: cloudify.aws.nodes.SecurityGroup
+    properties:
+      resource_id: hss_vm_security_group
+      aws_config: *aws_config
+      description: HSS VM Security Group
+      rules:
+        - ip_protocol: sctp
+          cidr_ip: { get_input: subnet_cidr }
+          from_port: 6000
+          to_port: 6000
+    relationships:
+      - type: cloudify.aws.relationships.security_group_contained_in_vpc
+        target: vpc
+
+  mme_vm_security_group:
+    type: cloudify.aws.nodes.SecurityGroup
+    properties:
+      resource_id: mme_vm_security_group
+      aws_config: *aws_config
+      description: MME VM Security Group
+      rules:
+        - ip_protocol: sctp
+          cidr_ip: { get_input: subnet_cidr }
+          from_port: 5000
+          to_port: 5000
+    relationships:
+      - type: cloudify.aws.relationships.security_group_contained_in_vpc
+        target: vpc
+
+  pgw_vm_security_group:
+    type: cloudify.aws.nodes.SecurityGroup
+    properties:
+      resource_id: pgw_vm_security_group
+      aws_config: *aws_config
+      description: PGW VM Security Group
+      rules:
+        - ip_protocol: udp
+          cidr_ip: { get_input: subnet_cidr }
+          from_port: 8000
+          to_port: 8000
+        - ip_protocol: udp
+          cidr_ip: { get_input: subnet_cidr }
+          from_port: 8100
+          to_port: 8100
+    relationships:
+      - type: cloudify.aws.relationships.security_group_contained_in_vpc
+        target: vpc
+
+  sgw_vm_security_group:
+    type: cloudify.aws.nodes.SecurityGroup
+    properties:
+      resource_id: sgw_vm_security_group
+      aws_config: *aws_config
+      description: SGW VM Security Group
+      rules:
+        - ip_protocol: udp
+          cidr_ip: { get_input: subnet_cidr }
+          from_port: 7000
+          to_port: 7000
+        - ip_protocol: udp
+          cidr_ip: { get_input: subnet_cidr }
+          from_port: 7100
+          to_port: 7100
+        - ip_protocol: udp
+          cidr_ip: { get_input: subnet_cidr }
+          from_port: 7200
+          to_port: 7200
+    relationships:
+      - type: cloudify.aws.relationships.security_group_contained_in_vpc
+        target: vpc
+
+  ran_vm_security_group:
+    type: cloudify.aws.nodes.SecurityGroup
+    properties:
+      resource_id: ran_vm_security_group
+      aws_config: *aws_config
+      description: RAN VM Security Group
+      rules:
+        - ip_protocol: udp
+          cidr_ip: { get_input: subnet_cidr }
+          from_port: 4000
+          to_port: 4000
+        - ip_protocol: tcp
+          cidr_ip: 0.0.0.0/0
+          from_port: 22
+          to_port: 22
+    relationships:
+      - type: cloudify.aws.relationships.security_group_contained_in_vpc
+        target: vpc
+
+  sink_vm_security_group:
+    type: cloudify.aws.nodes.SecurityGroup
+    properties:
+      resource_id: sink_vm_security_group
+      aws_config: *aws_config
+      description: SINK VM Security Group
+      rules:
+        - ip_protocol: udp
+          cidr_ip: { get_input: subnet_cidr }
+          from_port: 8500
+          to_port: 8500
+        - ip_protocol: tcp
+          cidr_ip: 0.0.0.0/0
+          from_port: 22
+          to_port: 22
+    relationships:
+      - type: cloudify.aws.relationships.security_group_contained_in_vpc
+        target: vpc
+
+########################################################
 
   ran_ip:
     type: cloudify.aws.nodes.ElasticIP
@@ -149,6 +252,8 @@ node_templates:
       resource_id: { get_input: key_name }
       private_key_path: { get_input: private_key_path }
 
+########################################################
+
   ran_vm:
     type: vepc.nodes.Server
     properties:
@@ -162,6 +267,8 @@ node_templates:
         target: all_nodes_internal
       - type: cloudify.aws.relationships.instance_connected_to_security_group
         target: all_nodes_external
+      - type: cloudify.aws.relationships.instance_connected_to_security_group
+        target: ran_vm_security_group
       - type: cloudify.aws.relationships.instance_connected_to_keypair
         target: key
       - type: cloudify.aws.relationships.instance_contained_in_subnet
@@ -180,6 +287,8 @@ node_templates:
         target: all_nodes_internal
       - type: cloudify.aws.relationships.instance_connected_to_security_group
         target: all_nodes_external
+      - type: cloudify.aws.relationships.instance_connected_to_security_group
+        target: sink_vm_security_group
       - type: cloudify.aws.relationships.instance_connected_to_keypair
         target: key
       - type: cloudify.aws.relationships.instance_contained_in_subnet
@@ -195,6 +304,8 @@ node_templates:
         target: all_nodes_internal
       - type: cloudify.aws.relationships.instance_connected_to_security_group
         target: all_nodes_external
+      - type: cloudify.aws.relationships.instance_connected_to_security_group
+        target: mme_vm_security_group
       - type: cloudify.aws.relationships.instance_connected_to_keypair
         target: key
       - type: cloudify.aws.relationships.instance_contained_in_subnet
@@ -210,6 +321,8 @@ node_templates:
         target: all_nodes_internal
       - type: cloudify.aws.relationships.instance_connected_to_security_group
         target: all_nodes_external
+      - type: cloudify.aws.relationships.instance_connected_to_security_group
+        target: sgw_vm_security_group
       - type: cloudify.aws.relationships.instance_connected_to_keypair
         target: key
       - type: cloudify.aws.relationships.instance_contained_in_subnet
@@ -225,6 +338,8 @@ node_templates:
         target: all_nodes_internal
       - type: cloudify.aws.relationships.instance_connected_to_security_group
         target: all_nodes_external
+      - type: cloudify.aws.relationships.instance_connected_to_security_group
+        target: pgw_vm_security_group
       - type: cloudify.aws.relationships.instance_connected_to_keypair
         target: key
       - type: cloudify.aws.relationships.instance_contained_in_subnet
@@ -240,6 +355,8 @@ node_templates:
         target: all_nodes_internal
       - type: cloudify.aws.relationships.instance_connected_to_security_group
         target: all_nodes_external
+      - type: cloudify.aws.relationships.instance_connected_to_security_group
+        target: hss_vm_security_group
       - type: cloudify.aws.relationships.instance_connected_to_keypair
         target: key
       - type: cloudify.aws.relationships.instance_contained_in_subnet
