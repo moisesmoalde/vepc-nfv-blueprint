@@ -107,7 +107,7 @@ node_templates:
       aws_config: *aws_config
       description: HSS VM Security Group
       rules:
-        - ip_protocol: sctp
+        - ip_protocol: 132
           cidr_ip: { get_input: subnet_cidr }
           from_port: 6000
           to_port: 6000
@@ -122,7 +122,7 @@ node_templates:
       aws_config: *aws_config
       description: MME VM Security Group
       rules:
-        - ip_protocol: sctp
+        - ip_protocol: 132
           cidr_ip: { get_input: subnet_cidr }
           from_port: 5000
           to_port: 5000
