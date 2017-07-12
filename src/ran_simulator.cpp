@@ -119,8 +119,8 @@ void simulate(int arg) {
 }
 
 void check_usage(int argc) {
-	if (argc < 3) {
-		TRACE(cout << "Usage: ./<ran_simulator_exec> THREADS_COUNT DURATION" << endl;)
+	if (argc < 5) {
+		TRACE(cout << "Usage: ./<ran_simulator_exec> THREADS_COUNT DURATION RAN_IP MME_IP" << endl;)
 		g_utils.handle_type1_error(-1, "Invalid usage error: ransimulator_checkusage");
 	}
 }
@@ -129,6 +129,9 @@ void init(char *argv[]) {
 	g_start_time = time(0);
 	g_threads_count = atoi(argv[1]);
 	g_req_dur = atoi(argv[2]);
+	g_ran_ip_addr = argv[3];
+	g_trafmon_ip_addr = argv[3];
+	g_mme_ip_addr = argv[4];
 	g_tot_regs = 0;
 	g_tot_regstime = 0;
 	g_sync.mux_init(g_mux);	

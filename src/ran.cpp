@@ -1,8 +1,8 @@
 #include "ran.h"
 
-string g_ran_ip_addr = "192.168.1.83";
-string g_trafmon_ip_addr = "192.168.1.83";
-string g_mme_ip_addr = "192.168.1.78";
+string g_ran_ip_addr;
+string g_trafmon_ip_addr;
+string g_mme_ip_addr;
 int g_trafmon_port = 4000;
 int g_mme_port = 5000;
 
