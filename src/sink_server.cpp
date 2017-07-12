@@ -38,14 +38,16 @@ void sink(int sink_num) {
 }
 
 void check_usage(int argc) {
-	if (argc < 2) {
-		TRACE(cout << "Usage: ./<sink_server_exec> THREADS_COUNT" << endl;)
+	if (argc < 4) {
+		TRACE(cout << "Usage: ./<sink_server_exec> THREADS_COUNT SINK_IP PGW_IP" << endl;)
 		g_utils.handle_type1_error(-1, "Invalid usage error: sinkserver_checkusage");
 	}
 }
 
 void init(char *argv[]) {
 	g_threads_count = atoi(argv[1]);
+	g_sink_ip_addr = argv[2];
+	g_pgw_sgi_ip_addr = argv[3];
 	g_threads.resize(g_threads_count);
 }
 

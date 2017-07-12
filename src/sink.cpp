@@ -1,7 +1,7 @@
 #include "sink.h"
 
-string g_pgw_sgi_ip_addr = "192.168.1.76";
-string g_sink_ip_addr = "192.168.1.82";
+string g_pgw_sgi_ip_addr;
+string g_sink_ip_addr;
 int g_pgw_sgi_port = 8100;
 int g_sink_port = 8500;
 
