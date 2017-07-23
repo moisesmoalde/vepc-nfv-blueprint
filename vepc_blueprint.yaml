@@ -5,6 +5,7 @@ tosca_definitions_version: cloudify_dsl_1_3
 imports:
   - http://www.getcloudify.org/spec/cloudify/4.0.1/types.yaml
   - http://getcloudify.org.s3.amazonaws.com/spec/aws-plugin/1.4.10/plugin.yaml
+  - http://www.getcloudify.org/spec/diamond-plugin/1.3.5/plugin.yaml
   - app_blueprint.yaml
   - types/vepc_vm.yaml
   - types/vepc_nodes.yaml
