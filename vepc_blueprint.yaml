@@ -296,7 +296,7 @@ node_templates:
         target: subnet
 
   mme_vm:
-    type: vepc.nodes.Server
+    type: vepc.nodes.MonitoredServer
     properties:
       aws_config: *aws_config
       name: MME
@@ -313,7 +313,7 @@ node_templates:
         target: subnet
 
   sgw_vm:
-    type: vepc.nodes.Server
+    type: vepc.nodes.MonitoredServer
     properties:
       aws_config: *aws_config
       name: SGW
@@ -330,7 +330,7 @@ node_templates:
         target: subnet
 
   pgw_vm:
-    type: vepc.nodes.Server
+    type: vepc.nodes.MonitoredServer
     properties:
       aws_config: *aws_config
       name: PGW
