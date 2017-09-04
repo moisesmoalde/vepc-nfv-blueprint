@@ -448,6 +448,123 @@ node_templates:
 
 ########################################################
 
+groups:
+  mme_vm_group:
+    members: [mme_vm]
+    policies:
+      up_scale_policy:
+        type: cloudify.policies.types.threshold
+        properties:
+          service: cpu.total.user
+          threshold: 25
+          stability_time: 60
+        triggers:
+          scale_trigger:
+            type: cloudify.policies.triggers.execute_workflow
+            parameters:
+              workflow: scale
+              workflow_parameters:
+                scalable_entity_name: mme
+                delta: 1
+                scale_compute: true
+                max_instances: 5
+
+      down_scale_policy:
+        type: cloudify.policies.types.threshold
+        properties:
+          service: cpu.total.user
+          threshold: 10
+          upper_bound: false
+          stability_time: 60
+        triggers:
+          scale_trigger:
+            type: cloudify.policies.triggers.execute_workflow
+            parameters:
+              workflow: scale
+              workflow_parameters:
+                scalable_entity_name: mme
+                scale_compute: true
+                min_instances: 1
+                delta: -1
+
+  sgw_vm_group:
+    members: [sgw_vm]
+    policies:
+      up_scale_policy:
+        type: cloudify.policies.types.threshold
+        properties:
+          service: cpu.total.user
+          threshold: 25
+          stability_time: 60
+        triggers:
+          scale_trigger:
+            type: cloudify.policies.triggers.execute_workflow
+            parameters:
+              workflow: scale
+              workflow_parameters:
+                scalable_entity_name: sgw
+                delta: 1
+                scale_compute: true
+                max_instances: 5
+
+      down_scale_policy:
+        type: cloudify.policies.types.threshold
+        properties:
+          service: cpu.total.user
+          threshold: 10
+          upper_bound: false
+          stability_time: 60
+        triggers:
+          scale_trigger:
+            type: cloudify.policies.triggers.execute_workflow
+            parameters:
+              workflow: scale
+              workflow_parameters:
+                scalable_entity_name: sgw
+                scale_compute: true
+                min_instances: 1
+                delta: -1
+
+  pgw_vm_group:
+    members: [pgw_vm]
+    policies:
+      up_scale_policy:
+        type: cloudify.policies.types.threshold
+        properties:
+          service: cpu.total.user
+          threshold: 25
+          stability_time: 60
+        triggers:
+          scale_trigger:
+            type: cloudify.policies.triggers.execute_workflow
+            parameters:
+              workflow: scale
+              workflow_parameters:
+                scalable_entity_name: pgw
+                delta: 1
+                scale_compute: true
+                max_instances: 5
+
+      down_scale_policy:
+        type: cloudify.policies.types.threshold
+        properties:
+          service: cpu.total.user
+          threshold: 10
+          upper_bound: false
+          stability_time: 60
+        triggers:
+          scale_trigger:
+            type: cloudify.policies.triggers.execute_workflow
+            parameters:
+              workflow: scale
+              workflow_parameters:
+                scalable_entity_name: pgw
+                scale_compute: true
+                min_instances: 1
+                delta: -1
+
+########################################################
+
 outputs:
 
   ran_access:
