@@ -451,9 +451,9 @@ node_templates:
     relationships:
       - type: cloudify.relationships.contained_in
         target: mme_vm
-      - type: cloudify.relationships.depends_on
+      - type: cloudify.relationships.connected_to
         target: ran_vm
-      - type: cloudify.relationships.depends_on
+      - type: cloudify.relationships.connected_to
         target: hss_vm
       - type: cloudify.relationships.depends_on
         target: sgw_vm
@@ -488,7 +488,7 @@ node_templates:
         target: pgw_vm
       - type: cloudify.relationships.depends_on
         target: sgw_vm
-      - type: cloudify.relationships.depends_on
+      - type: cloudify.relationships.connected_to
         target: sink_vm
 
   sink:
