@@ -455,10 +455,10 @@ node_templates:
         target: ran_vm
       - type: cloudify.relationships.connected_to
         target: hss_vm
-      - type: cloudify.relationships.depends_on
-        target: sgw_vm
-      - type: cloudify.relationships.depends_on
-        target: pgw_vm
+      - type: node_connected_to_load_balancer
+        target: sgw_lb_vm
+      - type: node_connected_to_load_balancer
+        target: pgw_lb_vm
 
   hss:
     type: vepc.nodes.hss
@@ -486,8 +486,8 @@ node_templates:
     relationships:
       - type: cloudify.relationships.contained_in
         target: pgw_vm
-      - type: cloudify.relationships.depends_on
-        target: sgw_vm
+      - type: node_connected_to_load_balancer
+        target: sgw_lb_vm
       - type: cloudify.relationships.connected_to
         target: sink_vm
 
