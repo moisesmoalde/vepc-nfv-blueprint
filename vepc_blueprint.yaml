@@ -430,6 +430,18 @@ node_templates:
       - type: cloudify.relationships.contained_in
         target: ran_vm
 
+  sgw_lb:
+    type: vepc.nodes.lb
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        start:
+          inputs:
+            virtual_ip: { get_attribute: [ sgw_lb_ip, aws_resource_id ] }
+            network: { get_input: subnet_cidr }
+    relationships:
+      - type: cloudify.relationships.contained_in
+        target: sgw_lb_vm
+
   sgw:
     type: vepc.nodes.sgw
     interfaces:
@@ -443,6 +455,18 @@ node_templates:
     relationships:
       - type: cloudify.relationships.contained_in
         target: sgw_vm
+
+  mme_lb:
+    type: vepc.nodes.lb
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        start:
+          inputs:
+            virtual_ip: { get_attribute: [ mme_lb_ip, aws_resource_id ] }
+            network: { get_input: subnet_cidr }
+    relationships:
+      - type: cloudify.relationships.contained_in
+        target: mme_lb_vm
 
   mme:
     type: vepc.nodes.mme
@@ -479,6 +503,18 @@ node_templates:
     relationships:
       - type: cloudify.relationships.contained_in
         target: hss_vm
+
+  pgw_lb:
+    type: vepc.nodes.lb
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        start:
+          inputs:
+            virtual_ip: { get_attribute: [ pgw_lb_ip, aws_resource_id ] }
+            network: { get_input: subnet_cidr }
+    relationships:
+      - type: cloudify.relationships.contained_in
+        target: pgw_lb_vm
 
   pgw:
     type: vepc.nodes.pgw

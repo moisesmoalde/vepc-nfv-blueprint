@@ -54,3 +54,9 @@ node_types:
       cloudify.interfaces.lifecycle:
         configure: scripts/sink/install_sink.sh
         delete: scripts/sink/uninstall_sink.sh
+
+  vepc.nodes.lb:
+    derived_from: cloudify.nodes.SoftwareComponent
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        configure: scripts/lb/install_lb.sh
