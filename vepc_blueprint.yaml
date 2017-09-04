@@ -213,13 +213,19 @@ node_templates:
 
 ########################################################
 
-  ran_ip:
+  mme_lb_ip:
     type: cloudify.aws.nodes.ElasticIP
     properties:
       aws_config: *aws_config
       domain: vpc
 
-  sink_ip:
+  sgw_lb_ip:
+    type: cloudify.aws.nodes.ElasticIP
+    properties:
+      aws_config: *aws_config
+      domain: vpc
+
+  pgw_lb_ip:
     type: cloudify.aws.nodes.ElasticIP
     properties:
       aws_config: *aws_config
@@ -262,8 +268,6 @@ node_templates:
       instance_type: t2.large # 2 vCPU core, 8 GiB RAM memory
       name: RAN
     relationships:
-      - type: cloudify.aws.relationships.instance_connected_to_elastic_ip
-        target: ran_ip
       - type: cloudify.aws.relationships.instance_connected_to_security_group
         target: all_nodes_internal
       - type: cloudify.aws.relationships.instance_connected_to_security_group
@@ -282,8 +286,6 @@ node_templates:
       instance_type: t2.large # 2 vCPU core, 8 GiB RAM memory
       name: SINK
     relationships:
-      - type: cloudify.aws.relationships.instance_connected_to_elastic_ip
-        target: sink_ip
       - type: cloudify.aws.relationships.instance_connected_to_security_group
         target: all_nodes_internal
       - type: cloudify.aws.relationships.instance_connected_to_security_group
@@ -301,6 +303,8 @@ node_templates:
       aws_config: *aws_config
       name: MME_LB
     relationships:
+      - type: cloudify.aws.relationships.instance_connected_to_elastic_ip
+        target: mme_lb_ip
       - type: cloudify.aws.relationships.instance_connected_to_security_group
         target: all_nodes_internal
       - type: cloudify.aws.relationships.instance_connected_to_security_group
@@ -335,6 +339,8 @@ node_templates:
       aws_config: *aws_config
       name: SGW_LB
     relationships:
+      - type: cloudify.aws.relationships.instance_connected_to_elastic_ip
+        target: sgw_lb_ip
       - type: cloudify.aws.relationships.instance_connected_to_security_group
         target: all_nodes_internal
       - type: cloudify.aws.relationships.instance_connected_to_security_group
@@ -369,6 +375,8 @@ node_templates:
       aws_config: *aws_config
       name: PGW_LB
     relationships:
+      - type: cloudify.aws.relationships.instance_connected_to_elastic_ip
+        target: pgw_lb_ip
       - type: cloudify.aws.relationships.instance_connected_to_security_group
         target: all_nodes_internal
       - type: cloudify.aws.relationships.instance_connected_to_security_group
@@ -619,21 +627,21 @@ groups:
 outputs:
 
   ran_access:
-    description: public IP of RAN simulator node
+    description: private IP of RAN simulator node
     value:
-      ip: { get_attribute: [ ran_ip, aws_resource_id ] }
+      private_ip: { get_attribute: [ ran_vm, ip ] }
 
   sink_access:
-    description: public IP of SINK node
+    description: private IP of SINK node
     value:
-      ip: { get_attribute: [ sink_ip, aws_resource_id ] }
+      private_ip: { get_attribute: [ sink_vm, ip ] }
 
   mme_ip:
-    description: private IP of MME node
+    description: virtual elastic IP of MME load balancer
     value:
-      ip: { get_attribute: [ mme_vm, ip ] }
+      virtual_ip: { get_attribute: [ mme_lb_ip, aws_resource_id ] }
 
   pgw_ip:
-    description: private IP of PGW node
+    description: virtual elastic IP of PGW load balancer
     value:
-      ip: { get_attribute: [ pgw_vm, ip ] }
+      virtual_ip: { get_attribute: [ pgw_lb_ip, aws_resource_id ] }
