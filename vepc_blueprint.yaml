@@ -295,6 +295,23 @@ node_templates:
       - type: cloudify.aws.relationships.instance_contained_in_subnet
         target: subnet
 
+  mme_lb_vm:
+    type: vepc.nodes.Server
+    properties:
+      aws_config: *aws_config
+      name: MME_LB
+    relationships:
+      - type: cloudify.aws.relationships.instance_connected_to_security_group
+        target: all_nodes_internal
+      - type: cloudify.aws.relationships.instance_connected_to_security_group
+        target: all_nodes_external
+      - type: cloudify.aws.relationships.instance_connected_to_security_group
+        target: mme_vm_security_group
+      - type: cloudify.aws.relationships.instance_connected_to_keypair
+        target: key
+      - type: cloudify.aws.relationships.instance_contained_in_subnet
+        target: subnet
+
   mme_vm:
     type: vepc.nodes.MonitoredServer
     properties:
@@ -312,6 +329,23 @@ node_templates:
       - type: cloudify.aws.relationships.instance_contained_in_subnet
         target: subnet
 
+  sgw_lb_vm:
+    type: vepc.nodes.Server
+    properties:
+      aws_config: *aws_config
+      name: SGW_LB
+    relationships:
+      - type: cloudify.aws.relationships.instance_connected_to_security_group
+        target: all_nodes_internal
+      - type: cloudify.aws.relationships.instance_connected_to_security_group
+        target: all_nodes_external
+      - type: cloudify.aws.relationships.instance_connected_to_security_group
+        target: sgw_vm_security_group
+      - type: cloudify.aws.relationships.instance_connected_to_keypair
+        target: key
+      - type: cloudify.aws.relationships.instance_contained_in_subnet
+        target: subnet
+
   sgw_vm:
     type: vepc.nodes.MonitoredServer
     properties:
@@ -324,6 +358,23 @@ node_templates:
         target: all_nodes_external
       - type: cloudify.aws.relationships.instance_connected_to_security_group
         target: sgw_vm_security_group
+      - type: cloudify.aws.relationships.instance_connected_to_keypair
+        target: key
+      - type: cloudify.aws.relationships.instance_contained_in_subnet
+        target: subnet
+
+  pgw_lb_vm:
+    type: vepc.nodes.Server
+    properties:
+      aws_config: *aws_config
+      name: PGW_LB
+    relationships:
+      - type: cloudify.aws.relationships.instance_connected_to_security_group
+        target: all_nodes_internal
+      - type: cloudify.aws.relationships.instance_connected_to_security_group
+        target: all_nodes_external
+      - type: cloudify.aws.relationships.instance_connected_to_security_group
+        target: pgw_vm_security_group
       - type: cloudify.aws.relationships.instance_connected_to_keypair
         target: key
       - type: cloudify.aws.relationships.instance_contained_in_subnet
