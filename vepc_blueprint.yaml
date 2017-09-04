@@ -455,6 +455,8 @@ node_templates:
     relationships:
       - type: cloudify.relationships.contained_in
         target: sgw_vm
+      - type: node_connected_to_load_balancer
+        target: sgw_lb
 
   mme_lb:
     type: vepc.nodes.lb
@@ -477,19 +479,21 @@ node_templates:
             ip: { get_attribute: [ mme_vm, ip ] }
             ran_ip: { get_attribute: [ ran_vm, ip ] }
             hss_ip: { get_attribute: [ hss_vm, ip ] }
-            sgw_ip: { get_attribute: [ sgw_vm, ip ] }
-            pgw_ip: { get_attribute: [ pgw_vm, ip ] }
+            sgw_ip: { get_attribute: [ sgw_lb_ip, aws_resource_id ] }
+            pgw_ip: { get_attribute: [ pgw_lb_ip, aws_resource_id ] }
             s1_mme_threads: { get_input: s1_mme_threads }
     relationships:
       - type: cloudify.relationships.contained_in
         target: mme_vm
+      - type: node_connected_to_load_balancer
+        target: mme_lb
       - type: cloudify.relationships.connected_to
         target: ran_vm
       - type: cloudify.relationships.connected_to
         target: hss_vm
-      - type: node_connected_to_load_balancer
+      - type: cloudify.relationships.connected_to
         target: sgw_lb_vm
-      - type: node_connected_to_load_balancer
+      - type: cloudify.relationships.connected_to
         target: pgw_lb_vm
 
   hss:
@@ -523,7 +527,7 @@ node_templates:
         start:
           inputs:
             ip: { get_attribute: [ pgw_vm, ip ] }
-            sgw_ip: { get_attribute: [ sgw_vm, ip ] }
+            sgw_ip: { get_attribute: [ sgw_lb_ip, aws_resource_id ] }
             sink_ip: { get_attribute: [ sink_vm, ip ] }
             s5_threads: { get_input: s5_threads }
             sgi_threads: { get_input: sgi_threads }
@@ -531,6 +535,8 @@ node_templates:
       - type: cloudify.relationships.contained_in
         target: pgw_vm
       - type: node_connected_to_load_balancer
+        target: pgw_lb
+      - type: cloudify.relationships.connected_to
         target: sgw_lb_vm
       - type: cloudify.relationships.connected_to
         target: sink_vm
