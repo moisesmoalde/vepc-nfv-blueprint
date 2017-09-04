@@ -52,13 +52,13 @@ relationships:
     target_interfaces:
       cloudify.interfaces.relationship_lifecycle:
         establish:
-          implementation: scripts/loadBalancer/loadBalancer.py
+          implementation: scripts/lb/lb.py
           inputs:
             invocation:
               default:
                 function: addBackend
         unlink:
-          implementation: scripts/loadBalancer/loadBalancer.py
+          implementation: scripts/lb/lb.py
           inputs:
             invocation:
               default:
