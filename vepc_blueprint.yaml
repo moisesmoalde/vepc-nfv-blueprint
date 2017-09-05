@@ -432,18 +432,14 @@ node_templates:
 
   sgw_lb:
     type: vepc.nodes.lb
+    properties:
+      ports: "7000,7100,7200"
     interfaces:
       cloudify.interfaces.lifecycle:
         configure:
           inputs:
             virtual_ip: { get_attribute: [ sgw_lb_ip, aws_resource_id ] }
             network: { get_input: subnet_cidr }
-        start:
-          inputs:
-            virtual_ip: { get_attribute: [ sgw_lb_ip, aws_resource_id ] }
-            port1 : 7000
-            port2 : 7100
-            port3 : 7200
     relationships:
       - type: cloudify.relationships.contained_in
         target: sgw_lb_vm
@@ -466,16 +462,14 @@ node_templates:
 
   mme_lb:
     type: vepc.nodes.lb
+    properties:
+      ports: "5000"
     interfaces:
       cloudify.interfaces.lifecycle:
         configure:
           inputs:
             virtual_ip: { get_attribute: [ mme_lb_ip, aws_resource_id ] }
             network: { get_input: subnet_cidr }
-        start:
-          inputs:
-            virtual_ip: { get_attribute: [ mme_lb_ip, aws_resource_id ] }
-            port1 : 5000
     relationships:
       - type: cloudify.relationships.contained_in
         target: mme_lb_vm
@@ -520,17 +514,14 @@ node_templates:
 
   pgw_lb:
     type: vepc.nodes.lb
+    properties:
+      ports: "8000,8100"
     interfaces:
       cloudify.interfaces.lifecycle:
         configure:
           inputs:
             virtual_ip: { get_attribute: [ pgw_lb_ip, aws_resource_id ] }
             network: { get_input: subnet_cidr }
-        start:
-          inputs:
-            virtual_ip: { get_attribute: [ pgw_lb_ip, aws_resource_id ] }
-            port1 : 8000
-            port2 : 8100
     relationships:
       - type: cloudify.relationships.contained_in
         target: pgw_lb_vm

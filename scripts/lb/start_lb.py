@@ -3,7 +3,6 @@
 # This provides several useful functions as well as allowing to pass
 # contextual information of an application.
 from cloudify import ctx
-from cloudify.state import ctx_parameters as inputs
 from cloudify import exceptions
 from cloudify import utils
 
@@ -17,8 +16,8 @@ def run(command, errorMessage):
                 error_message, e))
 
 
-VIP = str(inputs["virtual_ip"])
-PORTS = [str(port) for (key, port) in inputs.items() if key is not "virtual_ip"]
+VIP = str(ctx.instance.runtime_properties['virtual_ip'])
+PORTS = str(ctx.node.properties["ports"]).split(",")
 
 for port in PORTS:
 	run("ipvsadm -A -u {0}:{1} -s sh".format(VIP, port),
