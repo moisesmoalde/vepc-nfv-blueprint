@@ -44,6 +44,9 @@ ipvsadmConfFile.write('network ' + NETWORK + '\n')
 ipvsadmConfFile.write('netmask ' + NETMASK + '\n')
 ipvsadmConfFile.close()
 
+ctx.logger.info("Setting virtual IP runtime property")
+ctx.instance.runtime_properties['virtual_ip'] = VIP
+
 ctx.logger.info("Set up eth0:0 interface")
 check_call(['sudo', 'ifup', 'eth0:0'],
      stdout=open(os.devnull,'wb'), stderr=STDOUT)
