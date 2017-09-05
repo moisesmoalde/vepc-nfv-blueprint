@@ -26,7 +26,7 @@ ctx.logger.info("Installing ipvsadm Linux Virtual Server administration packages
 check_call(['sudo', 'DEBIAN_FRONTEND=noninteractive', 'apt-get', 'install', 'ipvsadm', '--yes', '--force-yes'],
      stdout=open(os.devnull,'wb'), stderr=STDOUT)
 
-ctx logger info "Editing ipvsadm configuration"
+ctx.logger.info("Editing ipvsadm configuration")
 ipvsadmConfFile = open("/etc/default/ipvsadm", "w")
 ipvsadmConfFile.write('# ipvsadm configuration\n\n')
 ipvsadmConfFile.write('# if you want to start ipvsadm on boot set this to true\n')
@@ -48,4 +48,4 @@ ctx.logger.info("Set up eth0:0 interface")
 check_call(['sudo', 'ifup', 'eth0:0'],
      stdout=open(os.devnull,'wb'), stderr=STDOUT)
 
-ctx logger info "LB successfully installed and configured"
+ctx.logger.info("LB successfully installed and configured")
