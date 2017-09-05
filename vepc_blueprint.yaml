@@ -434,7 +434,7 @@ node_templates:
     type: vepc.nodes.lb
     interfaces:
       cloudify.interfaces.lifecycle:
-        start:
+        configure:
           inputs:
             virtual_ip: { get_attribute: [ sgw_lb_ip, aws_resource_id ] }
             network: { get_input: subnet_cidr }
@@ -462,7 +462,7 @@ node_templates:
     type: vepc.nodes.lb
     interfaces:
       cloudify.interfaces.lifecycle:
-        start:
+        configure:
           inputs:
             virtual_ip: { get_attribute: [ mme_lb_ip, aws_resource_id ] }
             network: { get_input: subnet_cidr }
@@ -512,7 +512,7 @@ node_templates:
     type: vepc.nodes.lb
     interfaces:
       cloudify.interfaces.lifecycle:
-        start:
+        configure:
           inputs:
             virtual_ip: { get_attribute: [ pgw_lb_ip, aws_resource_id ] }
             network: { get_input: subnet_cidr }
