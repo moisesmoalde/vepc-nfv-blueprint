@@ -59,4 +59,4 @@ node_types:
     derived_from: cloudify.nodes.SoftwareComponent
     interfaces:
       cloudify.interfaces.lifecycle:
-        configure: scripts/lb/install_lb.sh
+        configure: scripts/lb/install_lb.py
