@@ -57,9 +57,13 @@ relationships:
             invocation:
               default:
                 function: addBackend
+                kwargs:
+                  portList: { get_property: [ TARGET, ports ] }
         unlink:
           implementation: scripts/lb/lb.py
           inputs:
             invocation:
               default:
                 function: removeBackend
+                kwargs:
+                  portList: { get_property: [ TARGET, ports ] }
