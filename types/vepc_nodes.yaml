@@ -57,6 +57,13 @@ node_types:
 
   vepc.nodes.lb:
     derived_from: cloudify.nodes.SoftwareComponent
+    properties:
+      ports:
+        description: >
+          List of ports whose active connections are going to be load-balanced.
+          It should be a string with the ports separated by commas. Example:
+          5555,35635,77,345
+        type: string
     interfaces:
       cloudify.interfaces.lifecycle:
         configure: scripts/lb/install_lb.py
