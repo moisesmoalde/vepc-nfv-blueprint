@@ -20,7 +20,7 @@ VIP = str(ctx.instance.runtime_properties['virtual_ip'])
 PORTS = str(ctx.node.properties["ports"]).split(",")
 
 for port in PORTS:
-	run("ipvsadm -A -u {0}:{1} -s sh".format(VIP, port),
+	run("sudo ipvsadm -A -u {0}:{1} -s sh".format(VIP, port),
 		errorMessage = "Failed trying to add a new load balancing virtual service")
 
 ctx.logger.info("Running load balancer with VIP {0}".format(VIP))

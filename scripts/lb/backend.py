@@ -19,7 +19,7 @@ def run(command, errorMessage):
 VIP = str(ctx.target.instance.runtime_properties.get('virtual_ip'))
 
 ctx.logger.info("Adding iptables entry for self-redirecting traffic")
-run("iptables -t nat -A PREROUTING -d {0} -j REDIRECT".format(VIP),
+run("sudo iptables -t nat -A PREROUTING -d {0} -j REDIRECT".format(VIP),
 	errorMessage = "Iptables entry failed to being inserted")
 
 ctx.logger.info("Load balancing setup complete at backend server")
