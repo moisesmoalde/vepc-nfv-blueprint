@@ -67,3 +67,7 @@ relationships:
                 function: removeBackend
                 kwargs:
                   portList: { get_property: [ TARGET, ports ] }
+    source_interfaces:
+      cloudify.interfaces.relationship_lifecycle:
+        establish:
+          implementation: scripts/lb/backend.py
