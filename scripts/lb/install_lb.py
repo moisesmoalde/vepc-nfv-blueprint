@@ -11,7 +11,7 @@ from cloudify import exceptions
 from cloudify import utils
 
 
-def run(command, errorMessage):
+def run(command, errorMessage = "Error"):
     runner = utils.LocalCommandRunner(logger=ctx.logger)
     try:
         runner.run(command)
@@ -36,22 +36,20 @@ run("sudo DEBIAN_FRONTEND=noninteractive apt-get install ipvsadm --yes --force-y
 	errorMessage = "Error while trying to install ipvsadm")
 
 ctx.logger.info("Editing ipvsadm configuration")
-ipvsadmConfFile = open("/etc/default/ipvsadm", "w")
-ipvsadmConfFile.write('# ipvsadm configuration\n\n')
-ipvsadmConfFile.write('# if you want to start ipvsadm on boot set this to true\n')
-ipvsadmConfFile.write('AUTO="true"\n\n')
-ipvsadmConfFile.write('# daemon method (none|master|backup)\n')
-ipvsadmConfFile.write('DAEMON="master"\n\n')
-ipvsadmConfFile.write('# use interface (eth0,eth1...)\n')
-ipvsadmConfFile.write('IFACE="eth0"\n\n')
-ipvsadmConfFile.write('# syncid to use\n')
-ipvsadmConfFile.write('SYNCID="1"\n\n')
-ipvsadmConfFile.write('auto eth0:0\n')
-ipvsadmConfFile.write('iface eth0:0 inet static\n')
-ipvsadmConfFile.write('address ' + VIP + '\n')
-ipvsadmConfFile.write('network ' + NETWORK + '\n')
-ipvsadmConfFile.write('netmask ' + NETMASK + '\n')
-ipvsadmConfFile.close()
+run("sudo printf '# ipvsadm configuration\n\n' > /etc/default/ipvsadm")
+run("sudo printf '# if you want to start ipvsadm on boot set this to true\n' >> /etc/default/ipvsadm")
+run("sudo printf 'AUTO=\"true\"\n\n' >> /etc/default/ipvsadm")
+run("sudo printf '# daemon method (none|master|backup)\n' >> /etc/default/ipvsadm")
+run("sudo printf 'DAEMON=\"master\"\n\n' >> /etc/default/ipvsadm")
+run("sudo printf '# use interface (eth0,eth1...)\n' >> /etc/default/ipvsadm")
+run("sudo printf 'IFACE=\"eth0\"\n\n' >> /etc/default/ipvsadm")
+run("sudo printf '# syncid to use\n' >> /etc/default/ipvsadm")
+run("sudo printf 'SYNCID=\"1\"\n\n' >> /etc/default/ipvsadm")
+run("sudo printf 'auto eth0:0\n' >> /etc/default/ipvsadm")
+run("sudo printf 'iface eth0:0 inet static\n' >> /etc/default/ipvsadm")
+run("sudo printf 'address {0}\n' >> /etc/default/ipvsadm".format(VIP))
+run("sudo printf 'network {0}\n' >> /etc/default/ipvsadm".format(NETWORK))
+run("sudo printf 'netmask {0}\n' >> /etc/default/ipvsadm".format(NETMASK))
 
 ctx.logger.info("Setting virtual IP runtime property")
 ctx.instance.runtime_properties['virtual_ip'] = VIP
