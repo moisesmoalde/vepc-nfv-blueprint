@@ -8,7 +8,8 @@ from cloudify import ctx
 from cloudify.state import ctx_parameters as inputs
 
 MME_DIR = ctx.instance.runtime_properties["mme_dir"]
-MME_IP = str(inputs["ip"]) # Private IP
+#MME_IP = str(inputs["ip"]) # Private IP
+MME_IP = ctx.instance.host_ip
 RAN_IP = str(inputs["ran_ip"])
 HSS_IP = str(inputs["hss_ip"])
 SGW_IP = str(inputs["sgw_ip"])

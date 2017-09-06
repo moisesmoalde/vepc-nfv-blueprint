@@ -450,7 +450,7 @@ node_templates:
       cloudify.interfaces.lifecycle:
         start:
           inputs:
-            ip: { get_attribute: [ sgw_vm, ip ] }
+            #ip: { get_attribute: [ sgw_vm, ip ] }
             s11_threads: { get_input: s11_threads }
             s1_u_threads: { get_input: s1_u_threads }
             s5_threads: { get_input: s5_threads }
@@ -480,7 +480,7 @@ node_templates:
       cloudify.interfaces.lifecycle:
         start:
           inputs:
-            ip: { get_attribute: [ mme_vm, ip ] }
+            #ip: { get_attribute: [ mme_vm, ip ] }
             ran_ip: { get_attribute: [ ran_vm, ip ] }
             hss_ip: { get_attribute: [ hss_vm, ip ] }
             sgw_ip: { get_attribute: [ sgw_lb_ip, aws_resource_id ] }
@@ -506,7 +506,7 @@ node_templates:
       cloudify.interfaces.lifecycle:
         start:
           inputs:
-            ip: { get_attribute: [ hss_vm, ip ] }
+            #ip: { get_attribute: [ hss_vm, ip ] }
             s6a_threads: { get_input: s6a_threads }
     relationships:
       - type: cloudify.relationships.contained_in
@@ -532,7 +532,7 @@ node_templates:
       cloudify.interfaces.lifecycle:
         start:
           inputs:
-            ip: { get_attribute: [ pgw_vm, ip ] }
+            #ip: { get_attribute: [ pgw_vm, ip ] }
             sgw_ip: { get_attribute: [ sgw_lb_ip, aws_resource_id ] }
             sink_ip: { get_attribute: [ sink_vm, ip ] }
             s5_threads: { get_input: s5_threads }
