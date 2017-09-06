@@ -14,7 +14,7 @@ def run(command, errorMessage):
         runner.run(command)
     except exceptions.CommandExecutionException as e:
         raise exceptions.NonRecoverableError('{0}: {1}'.format(
-                error_message, e))
+                errorMessage, e))
 
 def addBackend(virtual_ip = None, portList = None, backendAddress = None, add = True):
 	vip = virtual_ip or ctx.target.instance.runtime_properties.get('virtual_ip')

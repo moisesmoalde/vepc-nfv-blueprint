@@ -13,7 +13,7 @@ def run(command, errorMessage):
         runner.run(command)
     except exceptions.CommandExecutionException as e:
         raise exceptions.NonRecoverableError('{0}: {1}'.format(
-                error_message, e))
+                errorMessage, e))
 
 
 VIP = str(ctx.instance.runtime_properties['virtual_ip'])
