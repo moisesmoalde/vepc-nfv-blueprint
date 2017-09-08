@@ -21,7 +21,8 @@ def addBackend(virtual_ip = None, portList = None, backendAddress = None, add = 
 	ports = portList or ctx.target.node.properties['ports']
 	ip = backendAddress or ctx.source.instance.host_ip
 	for port in str(ports).split(","):
-		run("sudo ipvsadm -{0} -u {1}:{2} -r {3}:{4} -g".format(("a" if add else "d"), str(vip), port, str(ip), port),
+		run("sudo ipvsadm -{0} -u {1}:{2} -r {3}:{4}"
+			.format(("a" if add else "d"), str(vip), port, str(ip), port),
 			"Error adding a real server to a virtual service" if add else
 			"Error removing a real server from a virtual service")
 
