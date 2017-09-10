@@ -563,8 +563,8 @@ groups:
         type: cloudify.policies.types.threshold
         properties:
           service: cpu.total.user
-          threshold: 25
-          stability_time: 60
+          threshold: 0.25
+          stability_time: 150
         triggers:
           scale_trigger:
             type: cloudify.policies.triggers.execute_workflow
@@ -580,9 +580,9 @@ groups:
         type: cloudify.policies.types.threshold
         properties:
           service: cpu.total.user
-          threshold: 10
+          threshold: 0.10
           upper_bound: false
-          stability_time: 60
+          stability_time: 300
         triggers:
           scale_trigger:
             type: cloudify.policies.triggers.execute_workflow
@@ -601,8 +601,8 @@ groups:
         type: cloudify.policies.types.threshold
         properties:
           service: cpu.total.user
-          threshold: 25
-          stability_time: 60
+          threshold: 0.25
+          stability_time: 150
         triggers:
           scale_trigger:
             type: cloudify.policies.triggers.execute_workflow
@@ -618,9 +618,9 @@ groups:
         type: cloudify.policies.types.threshold
         properties:
           service: cpu.total.user
-          threshold: 10
+          threshold: 0.10
           upper_bound: false
-          stability_time: 60
+          stability_time: 300
         triggers:
           scale_trigger:
             type: cloudify.policies.triggers.execute_workflow
@@ -639,8 +639,8 @@ groups:
         type: cloudify.policies.types.threshold
         properties:
           service: cpu.total.user
-          threshold: 25
-          stability_time: 60
+          threshold: 0.25
+          stability_time: 150
         triggers:
           scale_trigger:
             type: cloudify.policies.triggers.execute_workflow
@@ -656,9 +656,9 @@ groups:
         type: cloudify.policies.types.threshold
         properties:
           service: cpu.total.user
-          threshold: 10
+          threshold: 0.10
           upper_bound: false
-          stability_time: 60
+          stability_time: 300
         triggers:
           scale_trigger:
             type: cloudify.policies.triggers.execute_workflow
