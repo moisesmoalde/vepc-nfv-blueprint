@@ -313,9 +313,9 @@ void Ran::transfer_data(int arg_dur) {
 	redir_err = " 2>&1";
 	server_ip_addr = "172.16.0.2";
 	server_port = ran_ctx.key + 55000;
-	g_nw.add_itf(ran_ctx.key, ran_ctx.ip_addr + "/8");
+	g_nw.add_itf(ran_ctx.key, g_ran_ip_addr + "/8");
 	// cmd = "iperf3 -B " + ran_ctx.ip_addr + " -c " + server_ip_addr + " -p " + to_string(server_port) + rate + dur + redir_err;	
-	cmd = "iperf3 -B " + ran_ctx.ip_addr + " -c " + server_ip_addr + " -p " + to_string(server_port) + rate + mtu + dur + redir_err;	
+	cmd = "iperf3 -B " + g_ran_ip_addr + " -c " + server_ip_addr + " -p " + to_string(server_port) + rate + mtu + dur + redir_err;	
 	TRACE(cout << cmd << endl;)
 	system(cmd.c_str());
 	// g_nw.rem_itf(ran_ctx.key);
