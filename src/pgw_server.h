@@ -21,7 +21,7 @@ extern Pgw g_pgw;
 void check_usage(int);
 void init(char**);
 void run();
-void handle_s5_traffic();
-void handle_sgi_traffic();
+void handle_s5_traffic(int);
+void handle_sgi_traffic(int);
 
 #endif /* PGW_SERVER_H */
