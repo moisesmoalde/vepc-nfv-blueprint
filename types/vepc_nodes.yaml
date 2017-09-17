@@ -69,3 +69,14 @@ node_types:
         configure: scripts/lb/install_lb.py
         start:
           implementation: scripts/lb/start_lb.py
+
+  vepc.nodes.kvstore:
+    derived_from: cloudify.nodes.SoftwareComponent
+    properties:
+      port:
+        type: integer
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        configure: scripts/kvstore/install_kvstore.sh
+        start:
+          implementation: scripts/kvstore/start_kvstore.py

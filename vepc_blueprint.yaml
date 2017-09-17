@@ -286,7 +286,7 @@ node_templates:
         target: subnet
 
   mme_vm:
-    type: vepc.nodes.MonitoredServer
+    type: vepc.nodes.Server
     properties:
       aws_config: *aws_config
       name: MME
@@ -303,7 +303,7 @@ node_templates:
         target: subnet
 
   sgw_vm:
-    type: vepc.nodes.MonitoredServer
+    type: vepc.nodes.Server
     properties:
       aws_config: *aws_config
       name: SGW
@@ -350,6 +350,21 @@ node_templates:
         target: all_nodes_external
       - type: cloudify.aws.relationships.instance_connected_to_security_group
         target: pgw_vm_security_group
+      - type: cloudify.aws.relationships.instance_connected_to_keypair
+        target: key
+      - type: cloudify.aws.relationships.instance_contained_in_subnet
+        target: subnet
+
+  kvstore_vm:
+    type: vepc.nodes.Server
+    properties:
+      aws_config: *aws_config
+      name: PGW
+    relationships:
+      - type: cloudify.aws.relationships.instance_connected_to_security_group
+        target: all_nodes_internal
+      - type: cloudify.aws.relationships.instance_connected_to_security_group
+        target: all_nodes_external
       - type: cloudify.aws.relationships.instance_connected_to_keypair
         target: key
       - type: cloudify.aws.relationships.instance_contained_in_subnet
@@ -460,6 +475,20 @@ node_templates:
         target: sgw_vm
       - type: cloudify.relationships.connected_to
         target: sink_vm
+
+  kvstore:
+    type: vepc.nodes.kvstore
+    properties:
+      port: 8090
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        start:
+          inputs:
+            socket_address: { concat: [ { get_attribute: [ kvstore_vm, ip ]},
+                                        ':', { get_property: [ SELF, port ] }] }
+    relationships:
+      - type: cloudify.relationships.contained_in
+        target: kvstore_vm
 
   sink:
     type: vepc.nodes.sink
