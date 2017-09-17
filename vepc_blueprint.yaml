@@ -213,18 +213,6 @@ node_templates:
 
 ########################################################
 
-  mme_lb_ip:
-    type: cloudify.aws.nodes.ElasticIP
-    properties:
-      aws_config: *aws_config
-      domain: vpc
-
-  sgw_lb_ip:
-    type: cloudify.aws.nodes.ElasticIP
-    properties:
-      aws_config: *aws_config
-      domain: vpc
-
   pgw_lb_ip:
     type: cloudify.aws.nodes.ElasticIP
     properties:
@@ -297,25 +285,6 @@ node_templates:
       - type: cloudify.aws.relationships.instance_contained_in_subnet
         target: subnet
 
-  mme_lb_vm:
-    type: vepc.nodes.Server
-    properties:
-      aws_config: *aws_config
-      name: MME_LB
-    relationships:
-      - type: cloudify.aws.relationships.instance_connected_to_elastic_ip
-        target: mme_lb_ip
-      - type: cloudify.aws.relationships.instance_connected_to_security_group
-        target: all_nodes_internal
-      - type: cloudify.aws.relationships.instance_connected_to_security_group
-        target: all_nodes_external
-      - type: cloudify.aws.relationships.instance_connected_to_security_group
-        target: mme_vm_security_group
-      - type: cloudify.aws.relationships.instance_connected_to_keypair
-        target: key
-      - type: cloudify.aws.relationships.instance_contained_in_subnet
-        target: subnet
-
   mme_vm:
     type: vepc.nodes.MonitoredServer
     properties:
@@ -328,25 +297,6 @@ node_templates:
         target: all_nodes_external
       - type: cloudify.aws.relationships.instance_connected_to_security_group
         target: mme_vm_security_group
-      - type: cloudify.aws.relationships.instance_connected_to_keypair
-        target: key
-      - type: cloudify.aws.relationships.instance_contained_in_subnet
-        target: subnet
-
-  sgw_lb_vm:
-    type: vepc.nodes.Server
-    properties:
-      aws_config: *aws_config
-      name: SGW_LB
-    relationships:
-      - type: cloudify.aws.relationships.instance_connected_to_elastic_ip
-        target: sgw_lb_ip
-      - type: cloudify.aws.relationships.instance_connected_to_security_group
-        target: all_nodes_internal
-      - type: cloudify.aws.relationships.instance_connected_to_security_group
-        target: all_nodes_external
-      - type: cloudify.aws.relationships.instance_connected_to_security_group
-        target: sgw_vm_security_group
       - type: cloudify.aws.relationships.instance_connected_to_keypair
         target: key
       - type: cloudify.aws.relationships.instance_contained_in_subnet
@@ -375,7 +325,7 @@ node_templates:
       aws_config: *aws_config
       name: PGW_LB
     relationships:
-      - type: cloudify.aws.relationships.instance_connected_to_elastic_ip
+      - type: cloudify.aws.relationships.instance_connected_to_elastic_ip # Maybe we don't have to connect this
         target: pgw_lb_ip
       - type: cloudify.aws.relationships.instance_connected_to_security_group
         target: all_nodes_internal
@@ -430,49 +380,18 @@ node_templates:
       - type: cloudify.relationships.contained_in
         target: ran_vm
 
-  sgw_lb:
-    type: vepc.nodes.lb
-    properties:
-      ports: "7000,7100,7200"
-    interfaces:
-      cloudify.interfaces.lifecycle:
-        configure:
-          inputs:
-            virtual_ip: { get_attribute: [ sgw_lb_ip, aws_resource_id ] }
-            network: { get_input: subnet_cidr }
-    relationships:
-      - type: cloudify.relationships.contained_in
-        target: sgw_lb_vm
-
   sgw:
     type: vepc.nodes.sgw
     interfaces:
       cloudify.interfaces.lifecycle:
         start:
           inputs:
-            #ip: { get_attribute: [ sgw_vm, ip ] }
             s11_threads: { get_input: s11_threads }
             s1_u_threads: { get_input: s1_u_threads }
             s5_threads: { get_input: s5_threads }
     relationships:
       - type: cloudify.relationships.contained_in
         target: sgw_vm
-      - type: node_connected_to_load_balancer
-        target: sgw_lb
-
-  mme_lb:
-    type: vepc.nodes.lb
-    properties:
-      ports: "5000"
-    interfaces:
-      cloudify.interfaces.lifecycle:
-        configure:
-          inputs:
-            virtual_ip: { get_attribute: [ mme_lb_ip, aws_resource_id ] }
-            network: { get_input: subnet_cidr }
-    relationships:
-      - type: cloudify.relationships.contained_in
-        target: mme_lb_vm
 
   mme:
     type: vepc.nodes.mme
@@ -480,23 +399,20 @@ node_templates:
       cloudify.interfaces.lifecycle:
         start:
           inputs:
-            #ip: { get_attribute: [ mme_vm, ip ] }
             ran_ip: { get_attribute: [ ran_vm, ip ] }
             hss_ip: { get_attribute: [ hss_vm, ip ] }
-            sgw_ip: { get_attribute: [ sgw_lb_ip, aws_resource_id ] }
+            sgw_ip: { get_attribute: [ sgw_vm, ip ] }
             pgw_ip: { get_attribute: [ pgw_lb_ip, aws_resource_id ] }
             s1_mme_threads: { get_input: s1_mme_threads }
     relationships:
       - type: cloudify.relationships.contained_in
         target: mme_vm
-      - type: node_connected_to_load_balancer
-        target: mme_lb
       - type: cloudify.relationships.connected_to
         target: ran_vm
       - type: cloudify.relationships.connected_to
         target: hss_vm
       - type: cloudify.relationships.connected_to
-        target: sgw_lb_vm
+        target: sgw_vm
       - type: cloudify.relationships.connected_to
         target: pgw_lb_vm
 
@@ -506,7 +422,6 @@ node_templates:
       cloudify.interfaces.lifecycle:
         start:
           inputs:
-            #ip: { get_attribute: [ hss_vm, ip ] }
             s6a_threads: { get_input: s6a_threads }
     relationships:
       - type: cloudify.relationships.contained_in
@@ -532,8 +447,7 @@ node_templates:
       cloudify.interfaces.lifecycle:
         start:
           inputs:
-            #ip: { get_attribute: [ pgw_vm, ip ] }
-            sgw_ip: { get_attribute: [ sgw_lb_ip, aws_resource_id ] }
+            sgw_ip: { get_attribute: [ sgw_vm, ip ] }
             sink_ip: { get_attribute: [ sink_vm, ip ] }
             s5_threads: { get_input: s5_threads }
             sgi_threads: { get_input: sgi_threads }
@@ -543,7 +457,7 @@ node_templates:
       - type: node_connected_to_load_balancer
         target: pgw_lb
       - type: cloudify.relationships.connected_to
-        target: sgw_lb_vm
+        target: sgw_vm
       - type: cloudify.relationships.connected_to
         target: sink_vm
 
@@ -554,83 +468,6 @@ node_templates:
         target: sink_vm
 
 ########################################################
-
-groups:
-  mme_vm_group:
-    members: [mme_vm]
-    policies:
-      up_scale_policy:
-        type: cloudify.policies.types.threshold
-        properties:
-          service: cpu.total.user
-          threshold: 0.25
-          stability_time: 150
-        triggers:
-          scale_trigger:
-            type: cloudify.policies.triggers.execute_workflow
-            parameters:
-              workflow: scale
-              workflow_parameters:
-                scalable_entity_name: mme
-                delta: 1
-                scale_compute: true
-                max_instances: 5
-
-      down_scale_policy:
-        type: cloudify.policies.types.threshold
-        properties:
-          service: cpu.total.user
-          threshold: 0.10
-          upper_bound: false
-          stability_time: 300
-        triggers:
-          scale_trigger:
-            type: cloudify.policies.triggers.execute_workflow
-            parameters:
-              workflow: scale
-              workflow_parameters:
-                scalable_entity_name: mme
-                scale_compute: true
-                min_instances: 1
-                delta: -1
-
-  sgw_vm_group:
-    members: [sgw_vm]
-    policies:
-      up_scale_policy:
-        type: cloudify.policies.types.threshold
-        properties:
-          service: cpu.total.user
-          threshold: 0.25
-          stability_time: 150
-        triggers:
-          scale_trigger:
-            type: cloudify.policies.triggers.execute_workflow
-            parameters:
-              workflow: scale
-              workflow_parameters:
-                scalable_entity_name: sgw
-                delta: 1
-                scale_compute: true
-                max_instances: 5
-
-      down_scale_policy:
-        type: cloudify.policies.types.threshold
-        properties:
-          service: cpu.total.user
-          threshold: 0.10
-          upper_bound: false
-          stability_time: 300
-        triggers:
-          scale_trigger:
-            type: cloudify.policies.triggers.execute_workflow
-            parameters:
-              workflow: scale
-              workflow_parameters:
-                scalable_entity_name: sgw
-                scale_compute: true
-                min_instances: 1
-                delta: -1
 
   pgw_vm_group:
     members: [pgw_vm]
@@ -687,7 +524,7 @@ outputs:
   mme_ip:
     description: virtual elastic IP of MME load balancer
     value:
-      virtual_ip: { get_attribute: [ mme_lb_ip, aws_resource_id ] }
+      virtual_ip: { get_attribute: [ mme_vm, ip ] }
 
   pgw_ip:
     description: virtual elastic IP of PGW load balancer
