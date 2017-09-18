@@ -464,6 +464,7 @@ node_templates:
           inputs:
             sgw_ip: { get_attribute: [ sgw_vm, ip ] }
             sink_ip: { get_attribute: [ sink_vm, ip ] }
+            kvstore_ip: { get_attribute: [ kvstore_vm, ip ] }
             s5_threads: { get_input: s5_threads }
             sgi_threads: { get_input: sgi_threads }
     relationships:

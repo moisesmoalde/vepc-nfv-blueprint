@@ -9,8 +9,8 @@ vector<UdpClient> sgw_s5_clients;
 Pgw g_pgw;
 
 void check_usage(int argc) {
-	if (argc < 6) {
-		TRACE(cout << "Usage: ./<pgw_server_exec> S5_THREADS SGI_THREADS PGW_IP SGW_IP SINK_IP" << endl;)
+	if (argc < 7) {
+		TRACE(cout << "Usage: ./<pgw_server_exec> S5_THREADS SGI_THREADS PGW_IP SGW_IP SINK_IP KVSTORE_IP" << endl;)
 		g_utils.handle_type1_error(-1, "Invalid usage error: pgwserver_checkusage");
 	}
 }
@@ -22,6 +22,7 @@ void init(char *argv[]) {
 	g_pgw_sgi_ip_addr = argv[3];
 	g_sgw_s5_ip_addr = argv[4];
 	g_sink_ip_addr = argv[5];
+	kvstore_ip_addr = argv[6];
 	g_s5_server_threads.resize(g_s5_server_threads_count);
 	g_sgi_server_threads.resize(g_sgi_server_threads_count);
 	g_pgw.initialize_kvstore_clients(g_s5_server_threads_count);
@@ -35,7 +36,7 @@ void run() {
 	/* downlink clients */
 	sgw_s5_clients.resize(g_s5_server_threads_count);
 	for (i = 0; i < g_sgi_server_threads_count; i++) {
-		sgw_s5_clients[i].conn(PGW1,SGWLB,7200);
+		sgw_s5_clients[i].conn(g_pgw_s5_ip_addr, g_sgw_s5_ip_addr, g_sgw_s5_port);
 
 	}
 	/* PGW S5 server */

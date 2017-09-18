@@ -17,12 +17,12 @@ extern string g_sgw_s5_ip_addr;
 extern string g_pgw_s5_ip_addr;
 extern string g_pgw_sgi_ip_addr;
 extern string g_sink_ip_addr;
+extern string kvstore_ip_addr;
 extern int g_sgw_s5_port;
 extern int g_pgw_s5_port;
 extern int g_pgw_sgi_port;
 extern int g_sink_port;
 
-const string dspgw_path = PDS;
 
 class UeContext {
 public:

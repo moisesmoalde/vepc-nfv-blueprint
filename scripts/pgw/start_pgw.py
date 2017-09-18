@@ -12,6 +12,7 @@ PGW_DIR = ctx.instance.runtime_properties["pgw_dir"]
 PGW_IP = ctx.instance.host_ip
 SGW_IP = str(inputs["sgw_ip"])
 SINK_IP = str(inputs["sink_ip"])
+KVSTORE_IP = str(inputs["kvstore_ip"])
 S5_THREADS = str(inputs["s5_threads"])
 SGI_THREADS = str(inputs["sgi_threads"])
 CMD = [PGW_DIR + "/src/pgw.out",
@@ -19,7 +20,8 @@ CMD = [PGW_DIR + "/src/pgw.out",
 		SGI_THREADS,
 		PGW_IP,
 		SGW_IP,
-		SINK_IP]
+		SINK_IP,
+		KVSTORE_IP]
 ctx.logger.info(" ".join(CMD))
 
 ctx.logger.info("Running PGW node")
