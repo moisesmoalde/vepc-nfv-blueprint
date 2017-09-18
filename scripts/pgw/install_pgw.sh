@@ -24,6 +24,9 @@ unzip ${PGW_DIR}.zip -d ${TEMP_DIR} && rm ${PGW_DIR}.zip
 ctx logger info "Making pgw.out file"
 sudo make -C ${PGW_DIR}/src pgw.out
 
+ctx logger info "Installing KVStore client"
+sudo make -C ${PGW_DIR}/KeyValueStore/Implementation/LevelDB/client/src
+
 # Runtime property used by start_hss script
 ctx instance runtime-properties pgw_dir ${PGW_DIR}
 
