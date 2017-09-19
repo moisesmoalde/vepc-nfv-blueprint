@@ -500,6 +500,7 @@ node_templates:
 
 ########################################################
 
+groups:
   pgw_vm_group:
     members: [pgw_vm]
     policies:
