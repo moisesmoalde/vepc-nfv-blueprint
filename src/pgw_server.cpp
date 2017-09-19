@@ -10,7 +10,7 @@ Pgw g_pgw;
 
 void check_usage(int argc) {
 	if (argc < 7) {
-		TRACE(cout << "Usage: ./<pgw_server_exec> S5_THREADS SGI_THREADS PGW_IP SGW_IP SINK_IP KVSTORE_IP" << endl;)
+		TRACE(cout << "Usage: ./<pgw_server_exec> S5_THREADS SGI_THREADS PGW_IP SGW_IP SINK_IP KVSTORE_ENDPOINT" << endl;)
 		g_utils.handle_type1_error(-1, "Invalid usage error: pgwserver_checkusage");
 	}
 }
@@ -22,7 +22,7 @@ void init(char *argv[]) {
 	g_pgw_sgi_ip_addr = argv[3];
 	g_sgw_s5_ip_addr = argv[4];
 	g_sink_ip_addr = argv[5];
-	kvstore_ip_addr = argv[6];
+	kvstore_ip_endpoint = argv[6];
 	g_s5_server_threads.resize(g_s5_server_threads_count);
 	g_sgi_server_threads.resize(g_sgi_server_threads_count);
 	g_pgw.initialize_kvstore_clients(g_s5_server_threads_count);

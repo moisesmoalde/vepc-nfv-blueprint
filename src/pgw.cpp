@@ -6,7 +6,7 @@ string g_sgw_s5_ip_addr;
 string g_pgw_s5_ip_addr;
 string g_pgw_sgi_ip_addr;
 string g_sink_ip_addr;
-string kvstore_ip_addr;
+string kvstore_ip_endpoint;
 
 int g_sgw_s5_port = 7200;
 int g_pgw_s5_port = 8000;
@@ -59,9 +59,9 @@ void Pgw::initialize_kvstore_clients(int workers_count){
 	if(UE_BINDING!=UE_BASED){
 		for(int i=0;i<workers_count;i++){
 
-			ds_sgi_id[i].bind(kvstore_ip_addr,SGI_ID);
-			ds_s5_id[i].bind(kvstore_ip_addr,S5_ID);
-			ds_all[i].bind(kvstore_ip_addr);
+			ds_sgi_id[i].bind(kvstore_ip_endpoint,SGI_ID);
+			ds_s5_id[i].bind(kvstore_ip_endpoint,S5_ID);
+			ds_all[i].bind(kvstore_ip_endpoint);
 		}
 	}
 	cout<<"kvstore connected"<<endl;
