@@ -42,11 +42,11 @@ ctx.logger.info("Editing ipvsadm configuration")
 run('sudo sed -i -e "s/false/true/" /etc/default/ipvsadm')
 run('sudo sed -i -e "s/none/master/" /etc/default/ipvsadm')
 
-run('sudo bash -c "printf \'\nauto eth0:0\n\' >> /etc/default/ipvsadm"')
-run('sudo bash -c "printf \'iface eth0:0 inet static\n\' >> /etc/default/ipvsadm"')
-run('sudo bash -c "printf \'address {0}\n\' >> /etc/default/ipvsadm"'.format(VIP))
-run('sudo bash -c "printf \'network {0}\n\' >> /etc/default/ipvsadm"'.format(NETWORK))
-run('sudo bash -c "printf \'netmask {0}\n\' >> /etc/default/ipvsadm"'.format(NETMASK))
+run('sudo bash -c "printf \'\nauto eth0:0\n\' >> /etc/network/interfaces"')
+run('sudo bash -c "printf \'iface eth0:0 inet static\n\' >> /etc/network/interfaces"')
+run('sudo bash -c "printf \'address {0}\n\' >> /etc/network/interfaces"'.format(VIP))
+run('sudo bash -c "printf \'network {0}\n\' >> /etc/network/interfaces"'.format(NETWORK))
+run('sudo bash -c "printf \'netmask {0}\n\' >> /etc/network/interfaces"'.format(NETMASK))
 
 ctx.logger.info("Setting virtual IP runtime property")
 ctx.instance.runtime_properties['virtual_ip'] = VIP
