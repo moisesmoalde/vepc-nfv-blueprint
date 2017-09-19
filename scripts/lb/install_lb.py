@@ -35,6 +35,9 @@ ctx.logger.info("Installing ipvsadm Linux Virtual Server administration packages
 run("sudo DEBIAN_FRONTEND=noninteractive apt-get install ipvsadm --yes --force-yes",
 	errorMessage = "Error while trying to install ipvsadm")
 
+ctx.logger.info("Enabling IPv4 forwarding")
+run('sudo sysctl -w net.ipv4.ip_forward=1')
+
 ctx.logger.info("Editing ipvsadm configuration")
 run('sudo sed -i -e "s/false/true/" /etc/default/ipvsadm')
 run('sudo sed -i -e "s/none/master/" /etc/default/ipvsadm')
