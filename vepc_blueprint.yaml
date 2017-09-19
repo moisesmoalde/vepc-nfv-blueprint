@@ -476,6 +476,8 @@ node_templates:
       - type: cloudify.relationships.connected_to
         target: sgw_vm
       - type: cloudify.relationships.connected_to
+        target: kvstore_vm
+      - type: cloudify.relationships.connected_to
         target: sink_vm
 
   kvstore:
