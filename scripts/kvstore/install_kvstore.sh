@@ -24,6 +24,8 @@ sudo apt-get -y update
 set +e
 ctx logger info "Installing g++ compiler and make tool"
 sudo DEBIAN_FRONTEND=noninteractive apt-get install g++ build-essential --yes --force-yes
+ctx logger info "Installing unzip package"
+sudo DEBIAN_FRONTEND=noninteractive apt-get install unzip --yes --force-yes
 set -e
 
 ctx logger info "Downloading vEPC blueprint package"
