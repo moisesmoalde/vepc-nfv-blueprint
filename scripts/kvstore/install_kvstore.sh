@@ -19,13 +19,13 @@ mkdir -p $GOPATH/pkg/levelmemdb
 mkdir -p $GOPATH/bin/levelmemdb
 
 ctx logger info "Configure the APT software"
-sudo apt-get -y update
+sudo apt-get update
 
 set +e
-ctx logger info "Installing g++ compiler and make tool"
-sudo DEBIAN_FRONTEND=noninteractive apt-get install g++ build-essential --yes --force-yes
+ctx logger info "Installing g++ compiler and make tool and git"
+sudo apt-get -y install g++ build-essential git
 ctx logger info "Installing unzip package"
-sudo DEBIAN_FRONTEND=noninteractive apt-get install unzip --yes --force-yes
+sudo apt-get -y install unzip
 set -e
 
 ctx logger info "Downloading vEPC blueprint package"
