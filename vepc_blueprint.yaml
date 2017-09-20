@@ -359,7 +359,7 @@ node_templates:
     type: vepc.nodes.Server
     properties:
       aws_config: *aws_config
-      name: PGW
+      name: KVSTORE_PGW
     relationships:
       - type: cloudify.aws.relationships.instance_connected_to_security_group
         target: all_nodes_internal
@@ -483,7 +483,7 @@ node_templates:
   kvstore:
     type: vepc.nodes.kvstore
     properties:
-      port: 8090
+      port: "8090"
     interfaces:
       cloudify.interfaces.lifecycle:
         start:
