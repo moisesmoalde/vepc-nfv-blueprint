@@ -10,7 +10,9 @@
 #include "udp_client.h"
 #include "udp_server.h"
 #include "utils.h"
+#include <kvstore/KVStoreHeader.h>  // for leveldb
 
+using namespace kvstore;
 
 
 extern string g_sgw_s5_ip_addr;

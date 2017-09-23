@@ -87,11 +87,7 @@
 #include <boost/serialization/vector.hpp>
 
 
-#include <kvstore/KVStoreHeader.h>  // for leveldb
-#define PDS "10.129.26.81:8090"
-
 using namespace std;
-using namespace kvstore;
 
 
 typedef std::chrono::high_resolution_clock CLOCK;

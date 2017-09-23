@@ -71,7 +71,7 @@ security.o:	diameter.h gtp.h packet.h s1ap.h security.cpp security.h utils.h
 	$(G++) -c -o security.o security.cpp
 
 sgw.o:	diameter.h gtp.h network.h packet.h s1ap.h sgw.cpp sgw.h sync.h udp_client.h udp_server.h utils.h
-	$(G++) -c -o sgw.o sgw.cpp -lboost_serialization -lkvstore
+	$(G++) -c -o sgw.o sgw.cpp -lboost_serialization
 
 sgw_server.o:	diameter.h gtp.h network.h packet.h s1ap.h sgw.h sgw_server.cpp sgw_server.h sync.h udp_client.h udp_server.h utils.h
 	$(G++) -c -o sgw_server.o sgw_server.cpp 
@@ -106,10 +106,10 @@ utils.o:	utils.cpp utils.h
 #---------Prerequisites and Recipes---------#
 
 HSS_P = diameter.o gtp.o hss.o hss_server.o  network.o packet.o s1ap.o sctp_server.o sync.o utils.o
-HSS_R = $(G++) -o hss.out $(HSS_P) -pthread -lboost_serialization -Wno-deprecated $(LIB)
+HSS_R = $(G++) -o hss.out $(HSS_P) -pthread -lboost_serialization -Wno-deprecated
 
 MME_P = diameter.o gtp.o mme.o mme_server.o network.o packet.o s1ap.o sctp_client.o sctp_server.o security.o sync.o telecom.o udp_client.o udp_server.o  utils.o
-MME_R = $(G++) -o mme.out $(MME_P) -pthread -lcrypto -lboost_serialization -Wno-deprecated $(LIB)
+MME_R = $(G++) -o mme.out $(MME_P) -pthread -lcrypto -lboost_serialization -Wno-deprecated
 
 PGW_P = diameter.o gtp.o network.o packet.o pgw.o pgw_server.o s1ap.o sync.o udp_client.o udp_server.o utils.o
 PGW_R = $(G++) -o pgw.out $(PGW_P) -pthread -Wno-deprecated -lboost_serialization $(LIB)
@@ -118,7 +118,7 @@ RAN_P = diameter.o gtp.o network.o packet.o ran.o ran_simulator.o s1ap.o sctp_cl
 RAN_R = $(G++) -o ransim.out $(RAN_P) -pthread -lcrypto -lboost_serialization 
 
 SGW_P = diameter.o gtp.o network.o packet.o s1ap.o sgw.o sgw_server.o sync.o udp_client.o udp_server.o utils.o
-SGW_R = $(G++) -o sgw.out $(SGW_P) -pthread -lboost_serialization -lboost_serialization $(LIB)
+SGW_R = $(G++) -o sgw.out $(SGW_P) -pthread -lboost_serialization -lboost_serialization
 
 SINK_P = diameter.o gtp.o network.o packet.o s1ap.o sink.o sink_server.o tun.o udp_client.o udp_server.o utils.o
 SINK_R = $(G++) -o sink.out $(SINK_P) -pthread -lboost_serialization 
