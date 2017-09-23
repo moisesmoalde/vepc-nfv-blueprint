@@ -16,8 +16,8 @@ sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again p
 set +e
 ctx logger info "Installing MySQL packages"
 sudo DEBIAN_FRONTEND=noninteractive apt-get install mysql-server libmysqlclient-dev --yes --force-yes
-ctx logger info "Installing g++ compiler and make tool"
-sudo DEBIAN_FRONTEND=noninteractive apt-get install g++ build-essential --yes --force-yes
+ctx logger info "Installing g++ compiler and make tool and libboost"
+sudo DEBIAN_FRONTEND=noninteractive apt-get install g++ build-essential libboost-all-dev --yes --force-yes
 ctx logger info "Installing unzip package"
 sudo DEBIAN_FRONTEND=noninteractive apt-get install unzip --yes --force-yes
 set -e
