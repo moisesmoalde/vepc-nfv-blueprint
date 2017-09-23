@@ -9,8 +9,12 @@ from cloudify.state import ctx_parameters as inputs
 
 
 SOCKET_ADDR = str(inputs["socket_address"] or "127.0.0.1:8090")
+GO_DIR = "/tmp/vepc-nfv-blueprint-master/GO"
 
-CMD = ["$GOPATH/src/levelmemdb/go", "run", "server.go", SOCKET_ADDR]
+CMD = [GO_DIR + "/go/bin/go",
+       "run",
+       GO_DIR + "/go_workspace/src/levelmemdb/server.go",
+       SOCKET_ADDR]
 
 ctx.logger.info(" ".join(CMD))
 
