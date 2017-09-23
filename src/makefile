@@ -40,6 +40,9 @@ mme.o:	diameter.h gtp.h mme.cpp mme.h network.h packet.h s1ap.h sctp_client.h sc
 mme_server.o:	diameter.h gtp.h mme.h mme_server.cpp mme_server.h network.h packet.h s1ap.h sctp_client.h sctp_server.h security.h sync.h telecom.h udp_server.h udp_client.h utils.h
 	$(G++) -c -o mme_server.o mme_server.cpp	
 
+mysql.o:	mysql.cpp mysql.h utils.h
+	$(G++) -c -o mysql.o mysql.cpp
+
 network.o:	diameter.h gtp.h network.cpp network.h packet.h s1ap.h utils.h 
 	$(G++) -c -o network.o network.cpp
 
@@ -105,8 +108,8 @@ utils.o:	utils.cpp utils.h
 
 #---------Prerequisites and Recipes---------#
 
-HSS_P = diameter.o gtp.o hss.o hss_server.o  network.o packet.o s1ap.o sctp_server.o sync.o utils.o
-HSS_R = $(G++) -o hss.out $(HSS_P) -pthread -lboost_serialization -Wno-deprecated
+HSS_P = diameter.o gtp.o hss.o hss_server.o mysql.o network.o packet.o s1ap.o sctp_server.o sync.o utils.o
+HSS_R = $(G++) -o hss.out $(HSS_P) -pthread `mysql_config --cflags --libs` -lboost_serialization -Wno-deprecated
 
 MME_P = diameter.o gtp.o mme.o mme_server.o network.o packet.o s1ap.o sctp_client.o sctp_server.o security.o sync.o telecom.o udp_client.o udp_server.o  utils.o
 MME_R = $(G++) -o mme.out $(MME_P) -pthread -lcrypto -lboost_serialization -Wno-deprecated
