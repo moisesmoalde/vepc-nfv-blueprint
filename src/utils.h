@@ -84,8 +84,6 @@
 
 /* (C++) STL: vector */
 #include <vector>
-#include <boost/serialization/vector.hpp>
-
 
 using namespace std;
 

@@ -11,6 +11,7 @@
 #include "udp_server.h"
 #include "utils.h"
 #include <kvstore/KVStoreHeader.h>  // for leveldb
+#include <boost/serialization/vector.hpp>
 
 using namespace kvstore;
 
