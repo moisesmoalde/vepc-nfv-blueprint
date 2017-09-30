@@ -1,7 +1,3 @@
-
-import socket
-import struct
-
 # Import Cloudify's context object.
 # This provides several useful functions as well as allowing to pass
 # contextual information of an application.
@@ -19,39 +15,25 @@ def run(command, errorMessage = "Error"):
         raise exceptions.NonRecoverableError('{0}: {1}'.format(
                 errorMessage, e))
 
-def cidrToNetmask(cidr):
-	hostBits = 32 - int(cidr.split("/")[1])
-	return socket.inet_ntoa(struct.pack('!I', (1 << 32) - (1 << hostBits)))
-
-
-VIP = str(inputs["virtual_ip"])
-NETWORK = str(inputs["network"]).split("/")[0]
-NETMASK = cidrToNetmask(str(inputs["network"]))
+PORTS = str(ctx.node.properties["ports"]).split(",")
 
 ctx.logger.info("Update the APT software")
 run("sudo apt-get -y update", "Error updating APT software")
 
-ctx.logger.info("Installing ipvsadm Linux Virtual Server administration packages for load balancing")
-run("sudo DEBIAN_FRONTEND=noninteractive apt-get install ipvsadm --yes --force-yes",
-	errorMessage = "Error while trying to install ipvsadm")
+ctx.logger.info("Installing pen package with dependencies for load balancing")
+run("wget http://ftp.us.debian.org/debian/pool/main/o/openssl/libssl1.1_1.1.0f-3_amd64.deb",
+	errorMessage = "Error downloading libssl1.1 library")
+run("sudo dpkg -i libssl1.1_1.1.0f-3_amd64.deb",
+	errorMessage = "Error installing libssl1.1 library")
+run("wget http://ftp.us.debian.org/debian/pool/main/p/pen/pen_0.34.1-1_amd64.deb",
+	errorMessage = "Error downloading pen package")
+run("sudo dpkg -i pen_0.34.1-1_amd64.deb",
+	errorMessage = "Error installing pen package")
 
 ctx.logger.info("Enabling IPv4 forwarding")
-run('sudo sysctl -w net.ipv4.ip_forward=1')
+run('sudo sysctl -w net.ipv4.ip_forward=1', "Error enabling IPv4 forwarding")
 
-ctx.logger.info("Editing ipvsadm configuration")
-run('sudo sed -i -e "s/false/true/" /etc/default/ipvsadm')
-run('sudo sed -i -e "s/none/master/" /etc/default/ipvsadm')
-
-run('sudo bash -c "printf \'\nauto eth0:0\n\' >> /etc/network/interfaces"')
-run('sudo bash -c "printf \'iface eth0:0 inet static\n\' >> /etc/network/interfaces"')
-run('sudo bash -c "printf \'address {0}\n\' >> /etc/network/interfaces"'.format(VIP))
-run('sudo bash -c "printf \'network {0}\n\' >> /etc/network/interfaces"'.format(NETWORK))
-run('sudo bash -c "printf \'netmask {0}\n\' >> /etc/network/interfaces"'.format(NETMASK))
-
-ctx.logger.info("Setting virtual IP runtime property")
-ctx.instance.runtime_properties['virtual_ip'] = VIP
-
-ctx.logger.info("Set up eth0:0 interface")
-run("sudo ifup eth0:0", "Error setting up eth0:0 interface")
+ctx.logger.info("Setting ports dictionary runtime property for storing PIDs")
+ctx.instance.runtime_properties['ports'] = dict([(port, None) for port in PORTS])
 
 ctx.logger.info("LB successfully installed and configured")

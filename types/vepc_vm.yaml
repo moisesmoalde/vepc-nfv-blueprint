@@ -57,17 +57,9 @@ relationships:
             invocation:
               default:
                 function: addBackend
-                kwargs:
-                  portList: { get_property: [ TARGET, ports ] }
         unlink:
           implementation: scripts/lb/lb.py
           inputs:
             invocation:
               default:
                 function: removeBackend
-                kwargs:
-                  portList: { get_property: [ TARGET, ports ] }
-    source_interfaces:
-      cloudify.interfaces.relationship_lifecycle:
-        establish:
-          implementation: scripts/lb/backend.py

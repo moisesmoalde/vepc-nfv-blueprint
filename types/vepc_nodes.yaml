@@ -67,8 +67,6 @@ node_types:
     interfaces:
       cloudify.interfaces.lifecycle:
         configure: scripts/lb/install_lb.py
-        start:
-          implementation: scripts/lb/start_lb.py
 
   vepc.nodes.kvstore:
     derived_from: cloudify.nodes.SoftwareComponent
