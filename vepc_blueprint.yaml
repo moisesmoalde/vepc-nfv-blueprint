@@ -213,12 +213,6 @@ node_templates:
 
 ########################################################
 
-  pgw_lb_ip:
-    type: cloudify.aws.nodes.ElasticIP
-    properties:
-      aws_config: *aws_config
-      domain: vpc
-
   subnet:
     type: cloudify.aws.nodes.Subnet
     properties:
@@ -325,8 +319,6 @@ node_templates:
       aws_config: *aws_config
       name: PGW_LB
     relationships:
-      - type: cloudify.aws.relationships.instance_connected_to_elastic_ip # Maybe we don't have to connect this
-        target: pgw_lb_ip
       - type: cloudify.aws.relationships.instance_connected_to_security_group
         target: all_nodes_internal
       - type: cloudify.aws.relationships.instance_connected_to_security_group
@@ -417,7 +409,7 @@ node_templates:
             ran_ip: { get_attribute: [ ran_vm, ip ] }
             hss_ip: { get_attribute: [ hss_vm, ip ] }
             sgw_ip: { get_attribute: [ sgw_vm, ip ] }
-            pgw_ip: { get_attribute: [ pgw_lb_ip, aws_resource_id ] }
+            pgw_ip: { get_attribute: [ pgw_vm, ip ] }
             s1_mme_threads: { get_input: s1_mme_threads }
     relationships:
       - type: cloudify.relationships.contained_in
@@ -446,12 +438,6 @@ node_templates:
     type: vepc.nodes.lb
     properties:
       ports: "8000,8100"
-    interfaces:
-      cloudify.interfaces.lifecycle:
-        configure:
-          inputs:
-            virtual_ip: { get_attribute: [ pgw_lb_ip, aws_resource_id ] }
-            network: { get_input: subnet_cidr }
     relationships:
       - type: cloudify.relationships.contained_in
         target: pgw_lb_vm
@@ -563,4 +549,4 @@ outputs:
   pgw_ip:
     description: virtual elastic IP of PGW load balancer
     value:
-      virtual_ip: { get_attribute: [ pgw_lb_ip, aws_resource_id ] }
+      virtual_ip: { get_attribute: [ pgw_vm, ip ] }
