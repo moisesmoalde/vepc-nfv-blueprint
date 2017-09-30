@@ -409,7 +409,7 @@ node_templates:
             ran_ip: { get_attribute: [ ran_vm, ip ] }
             hss_ip: { get_attribute: [ hss_vm, ip ] }
             sgw_ip: { get_attribute: [ sgw_vm, ip ] }
-            pgw_ip: { get_attribute: [ pgw_vm, ip ] }
+            pgw_ip: { get_attribute: [ pgw_lb_vm, ip ] }
             s1_mme_threads: { get_input: s1_mme_threads }
     relationships:
       - type: cloudify.relationships.contained_in
@@ -549,4 +549,4 @@ outputs:
   pgw_ip:
     description: virtual elastic IP of PGW load balancer
     value:
-      virtual_ip: { get_attribute: [ pgw_vm, ip ] }
+      virtual_ip: { get_attribute: [ pgw_lb_vm, ip ] }
