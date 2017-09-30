@@ -30,10 +30,9 @@ def addBackend(backendAddress = None, add = True):
 		backends[backend_id] = ip
 	else:
 		backends.pop(backend_id, None)
-
-    ctx.target.instance.runtime_properties['backends'] = backends
+	ctx.target.instance.runtime_properties['backends'] = backends
 	lbUpdate(backends)
-    ctx.target.instance.update()
+	ctx.target.instance.update()
 
 def removeBackend(backendAddress = None):
 	addBackend(backendAddress, False)
@@ -41,7 +40,7 @@ def removeBackend(backendAddress = None):
 def lbUpdate(backends):
 	ports = ctx.target.instance.runtime_properties.get('ports', {})
 
-    for port, pid in ports.iteritems():
+	for port, pid in ports.iteritems():
 		if pid is not None:
 			run("sudo kill -9 {0}".format(pid), "Error trying to kill LB process with pid: {0}".format(pid))
 		CMD = "pen -Ur {0} {1}".format(port, " ".join(backends.values()))
