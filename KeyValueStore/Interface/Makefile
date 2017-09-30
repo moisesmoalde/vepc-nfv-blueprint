@@ -11,8 +11,8 @@ all:	install_deps init install
 
 
 install_deps:
-	sudo apt-get install g++
-	sudo apt-get install libboost-serialization-dev
+	sudo apt-get -y install g++
+	sudo apt-get -y install libboost-serialization-dev
 
 init:
 	mkdir -p $(BIN)
