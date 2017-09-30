@@ -19,15 +19,17 @@ PORTS = str(ctx.node.properties["ports"]).split(",")
 
 ctx.logger.info("Update the APT software")
 run("sudo apt-get -y update", "Error updating APT software")
+run("sudo DEBIAN_FRONTEND=noninteractive apt-get install unzip --yes --force-yes")
+run("sudo mkdir -p /tmp/vepc-nfv-blueprint-master")
 
 ctx.logger.info("Installing pen package with dependencies for load balancing")
-run("wget http://ftp.us.debian.org/debian/pool/main/o/openssl/libssl1.1_1.1.0f-3_amd64.deb",
-	errorMessage = "Error downloading libssl1.1 library")
-run("sudo dpkg -i libssl1.1_1.1.0f-3_amd64.deb",
+run("wget https://github.com/moisesmoalde/vepc-nfv-blueprint/archive/master.zip -O /tmp/vepc-nfv-blueprint-master.zip",
+	errorMessage = "Error downloading vepc-nfv-blueprint")
+run("unzip /tmp/vepc-nfv-blueprint-master.zip -d /tmp")
+
+run("sudo dpkg -i /tmp/vepc-nfv-blueprint-master/scripts/lb/libssl1.1_1.1.0f-3_amd64.deb",
 	errorMessage = "Error installing libssl1.1 library")
-run("wget http://ftp.us.debian.org/debian/pool/main/p/pen/pen_0.34.1-1_amd64.deb",
-	errorMessage = "Error downloading pen package")
-run("sudo dpkg -i pen_0.34.1-1_amd64.deb",
+run("sudo dpkg -i /tmp/vepc-nfv-blueprint-master/scripts/lb/pen_0.34.1-1_amd64.deb",
 	errorMessage = "Error installing pen package")
 
 ctx.logger.info("Enabling IPv4 forwarding")
