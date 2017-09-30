@@ -1,5 +1,6 @@
 import os
 import subprocess
+import signal
 
 # Import Cloudify's context object.
 # This provides several useful functions as well as allowing to pass
@@ -42,15 +43,20 @@ def removeBackend(backendAddress = None):
 def lbUpdate(backends):
 	ports = ctx.target.instance.runtime_properties.get('ports', {})
 
+	if not backends.values():
+		ctx.target.instance.runtime_properties['ports'] = dict([(port, None) for port in ports.keys()])
+		return
+
 	for port, pid in ports.iteritems():
-		if pid is not None:
-			run("sudo kill -9 {0}".format(pid), "Error trying to kill LB process with pid: {0}".format(pid))
+		if pid is not None: os.kill(int(pid), signal.SIGTERM)
 		CMD = ["pen", "-Ur", port] + [str(ip) for ip in backends.values()]
 		with open(os.devnull, 'wb') as dn:
 			process = subprocess.Popen(CMD, stdout=dn, stderr=dn)
-		ports[port] = process.pid
+		ports[port] = process.pid+2
 
 	ctx.target.instance.runtime_properties['ports'] = ports
+	ctx.logger.info("Updated pids to: " + str(ports))
+
 
 def main():
 	invocation = inputs['invocation']
