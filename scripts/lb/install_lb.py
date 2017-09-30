@@ -25,7 +25,7 @@ run("sudo mkdir -p /tmp/vepc-nfv-blueprint-master")
 ctx.logger.info("Installing pen package with dependencies for load balancing")
 run("wget https://github.com/moisesmoalde/vepc-nfv-blueprint/archive/master.zip -O /tmp/vepc-nfv-blueprint-master.zip",
 	errorMessage = "Error downloading vepc-nfv-blueprint")
-run("unzip /tmp/vepc-nfv-blueprint-master.zip -d /tmp")
+run("sudo unzip /tmp/vepc-nfv-blueprint-master.zip -d /tmp")
 
 run("sudo dpkg -i /tmp/vepc-nfv-blueprint-master/scripts/lb/libssl1.1_1.1.0f-3_amd64.deb",
 	errorMessage = "Error installing libssl1.1 library")
