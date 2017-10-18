@@ -504,10 +504,8 @@ groups:
             parameters:
               workflow: scale
               workflow_parameters:
-                scalable_entity_name: pgw
+                scalable_entity_name: pgw_vm
                 delta: 1
-                scale_compute: true
-                max_instances: 5
 
       down_scale_policy:
         type: cloudify.policies.types.threshold
@@ -522,9 +520,7 @@ groups:
             parameters:
               workflow: scale
               workflow_parameters:
-                scalable_entity_name: pgw
-                scale_compute: true
-                min_instances: 1
+                scalable_entity_name: pgw_vm
                 delta: -1
 
 ########################################################
